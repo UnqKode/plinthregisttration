@@ -2,15 +2,21 @@
 import { useRouter } from "next/navigation";
 import { Particles } from "../../../components/ui/particles";
 import { useData } from "../../../context/form.context";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function PaymentPage() {
-    const router = useRouter();
+  const router = useRouter();
   const { formData } = useData();
   const [file, setFile] = useState(null);
 
-  if (!formData.day) {
-   router.back();
+  useEffect(() => {
+    if (!formData?.day) {
+      router.back();
+    }
+  }, [formData, router]);
+
+  if (!formData?.day) {
+    return null;
   }
 
   const taxAmount = formData.totalAmount * 0.18;
