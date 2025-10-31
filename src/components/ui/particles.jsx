@@ -43,7 +43,7 @@ function hexToRgb(hex) {
 
 export const Particles = ({
   className = "",
-  quantity = 400,
+  quantity = 200,
   staticity = 50,
   ease = 50,
   size = 0.4,
@@ -254,7 +254,7 @@ export const Particles = ({
 
   return (
     <div
-      className={cn("pointer-events-none", className)}
+      className={cn("pointer-events-none h-screen", className)}
       ref={canvasContainerRef}
       aria-hidden="true"
       {...props}>

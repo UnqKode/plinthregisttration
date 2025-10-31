@@ -4,12 +4,12 @@ import React, { useEffect, useState } from "react"
 import { cn } from "../../lib/utils"
 
 export const Meteors = ({
-  number = 500,
-  minDelay = 0.2,
+  number = 100,
+  minDelay = 0,
   maxDelay = 1.2,
   minDuration = 2,
   maxDuration = 10,
-  angle = 215,
+  angle = 30,
   className
 }) => {
   const [meteorStyles, setMeteorStyles] = useState([])
@@ -28,7 +28,7 @@ export const Meteors = ({
   }, [number, minDelay, maxDelay, minDuration, maxDuration, angle])
 
   return (
-    <>
+    <div className="absolute left-0 w-[200vw]">
       {[...meteorStyles].map((style, idx) => (
         // Meteor Head
         (<span
@@ -43,6 +43,6 @@ export const Meteors = ({
             className="pointer-events-none absolute top-1/2 -z-10 h-px w-[50px] -translate-y-1/2 bg-gradient-to-r from-zinc-500 to-transparent" />
         </span>)
       ))}
-    </>
+    </div>
   );
 }

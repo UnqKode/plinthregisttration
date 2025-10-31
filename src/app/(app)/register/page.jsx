@@ -3,6 +3,7 @@ import { useRouter } from "next/navigation";
 import { Particles } from "../../../components/ui/particles"; // Assuming this path is correct for your project
 import { useState } from "react";
 import { Orbitron } from "next/font/google";
+import {useData } from "../../../context/form.context"
 
 const orbitron = Orbitron({
   subsets: ["latin"],
@@ -10,13 +11,13 @@ const orbitron = Orbitron({
   display: "swap",
 });
 
-
 export default function Page() {
   const router = useRouter();
   const [day, setDay] = useState("");
   const [members, setMembers] = useState([
     { name: "", college: "", contact: "", email: "" },
   ]);
+  const { setFormData } = useData();
   const [selectedEvents, setSelectedEvents] = useState([]);
   const [referral, setReferral] = useState("");
   const [comments, setComments] = useState("");
@@ -55,10 +56,10 @@ export default function Page() {
 
   // --- Price Calculation (Updated to be Per-Member) ---
   const getBasePrice = () => {
-    if (day === "all") {
+    if (day === "All") {
       return 1499; // Price for all 3 days
     }
-    if (day === "day1" || day === "day2" || day === "day3") {
+    if (day === "DAY1" || day === "DAY2" || day === "DAY3") {
       return 649; // Price for a single day
     }
     return 0; // No day selected
@@ -75,32 +76,37 @@ export default function Page() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log({
+
+    const finalData = {
       day,
       members,
       selectedEvents,
       referral,
       comments,
-      totalAmount, // Added total amount to the log
-    });
+      totalAmount,
+    }
+    
+    setFormData(finalData);
+    console.log("Saved in context", finalData)
+    router.push("/confirmRegistration")
     alert("Form submitted successfully!");
   };
 
-
-  const backPage = () =>{
+  const backPage = () => {
     router.back();
-  }
+  };
 
   return (
     <div className="relative min-h-screen w-full overflow-auto bg-black flex items-center justify-center py-12 px-4">
       {/* Animated Grid Background */}
-      <div className="fixed top-0 z-5 h-screen w-screen">
+      {/* Animated Grid Background */}
+      <div className="fixed inset-0 z-5 w-full h-screen">
         <Particles />
       </div>
       <div className="fixed inset-0 bg-[linear-gradient(rgba(0,255,136,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(0,255,136,0.03)_1px,transparent_1px)] bg-[size:50px_50px]" />
 
-
       {/* Form Container */}
+      
       <div className="relative z-10 bg-gradient-to-br from-black/5 to-white/10 backdrop-blur-xl border border-gray-800/50 rounded-3xl p-6 sm:p-8 max-w-4xl w-full shadow-[0_0_80px_rgba(0,255,136,0.1)]">
         {/* Header */}
         <div className={`text-center mb-8 ${orbitron.className}`}>
@@ -127,12 +133,12 @@ export default function Page() {
               required
             >
               <option value="">Select Day (Required)</option>
-              <option value="day1">
+              <option value="DAY1">
                 Day 1 - Opening Ceremony (₹649/member)
               </option>
-              <option value="day2">Day 2 - Tech Events (₹649/member)</option>
-              <option value="day3">Day 3 - Grand Finale (₹649/member)</option>
-              <option value="all">
+              <option value="DAY2">Day 2 - Tech Events (₹649/member)</option>
+              <option value="DAY3">Day 3 - Grand Finale (₹649/member)</option>
+              <option value="All">
                 All 3 Days - Grand Pass (₹1499/member)
               </option>
             </select>
@@ -382,57 +388,56 @@ export default function Page() {
             </p>
           </div>
           <div className="flex justify-center items-center gap-5">
-
-          <button
-            onClick={()=>backPage()}
-            type="button"
-            className="w-12 h-12 flex items-center justify-center bg-black/60 backdrop-blur-xl border border-white rounded-full text-gray-400 hover:text-gray-300 hover:border-white/50 hover:shadow-[0_0_20px_rgba(0,255,136,0.2)] transition-all duration-300 ease-in-out"
-          >
-            {/* Heroicon (Outline): Arrow Left */}
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={2}
-              stroke="currentColor"
-              className="w-7 h-7"
+            <button
+              onClick={() => backPage()}
+              type="button"
+              className="w-12 h-12 flex items-center justify-center bg-black/60 backdrop-blur-xl border border-white rounded-full text-gray-400 hover:text-gray-300 hover:border-white/50 hover:shadow-[0_0_20px_rgba(0,255,136,0.2)] transition-all duration-300 ease-in-out"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"
+              {/* Heroicon (Outline): Arrow Left */}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={2}
+                stroke="currentColor"
+                className="w-7 h-7"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"
+                />
+              </svg>
+            </button>
+            {/* Submit Button */}
+            <button
+              type="submit"
+              className="relative w-full group overflow-hidden rounded-2xl"
+            >
+              {/* Animated gradient border */}
+              <div
+                className="absolute inset-0 rounded-xl opacity-100 group-hover:opacity-100 transition-opacity"
+                style={{
+                  background:
+                    "linear-gradient(45deg, #00ff88, #00ccff, #0088ff, #00ff88)",
+                  backgroundSize: "300% 300%",
+                  animation: "gradient 3s linear infinite",
+                }}
               />
-            </svg>
-          </button>
-          {/* Submit Button */}
-          <button
-            type="submit"
-            className="relative w-full group overflow-hidden rounded-2xl"
-          >
-            {/* Animated gradient border */}
-            <div
-              className="absolute inset-0 rounded-xl opacity-100 group-hover:opacity-100 transition-opacity"
-              style={{
-                background:
-                  "linear-gradient(45deg, #00ff88, #00ccff, #0088ff, #00ff88)",
-                backgroundSize: "300% 300%",
-                animation: "gradient 3s linear infinite",
-              }}
-            />
 
-            <div className="relative bg-black rounded-xl px-8 py-4 m-[2px]">
-              <span className="text-xl font-bold tracking-wider bg-gradient-to-r from-cyan-400 via-blue-400 to-emerald-400 bg-clip-text text-transparent">
-                SUBMIT REGISTRATION
-              </span>
-            </div>
-            <div></div>
+              <div className="relative bg-black rounded-xl px-8 py-4 m-[2px]">
+                <span className="text-xl font-bold tracking-wider bg-gradient-to-r from-cyan-400 via-blue-400 to-emerald-400 bg-clip-text text-transparent">
+                  SUBMIT REGISTRATION
+                </span>
+              </div>
+              <div></div>
 
-            {/* Corner accents */}
-            <div className="absolute top-0 left-0 w-3 h-3 border-t-2 border-l-2 border-white" />
-            <div className="absolute top-0 right-0 w-3 h-3 border-t-2 border-r-2 border-white" />
-            <div className="absolute bottom-0 left-0 w-3 h-3 border-b-2 border-l-2 border-emerald-400" />
-            <div className="absolute bottom-0 right-0 w-3 h-3 border-b-2 border-r-2 border-emerald-400" />
-          </button>
+              {/* Corner accents */}
+              <div className="absolute top-0 left-0 w-3 h-3 border-t-2 border-l-2 border-white" />
+              <div className="absolute top-0 right-0 w-3 h-3 border-t-2 border-r-2 border-white" />
+              <div className="absolute bottom-0 left-0 w-3 h-3 border-b-2 border-l-2 border-emerald-400" />
+              <div className="absolute bottom-0 right-0 w-3 h-3 border-b-2 border-r-2 border-emerald-400" />
+            </button>
           </div>
 
           <p className="text-xs text-center text-gray-500">

@@ -13,7 +13,6 @@ const orbitron = Orbitron({
   display: "swap",
 });
 
-
 const fadeUp = {
   hidden: { opacity: 0, y: 40 },
   visible: (delay = 0) => ({
@@ -51,8 +50,6 @@ const cardVariants = {
   }),
 };
 
-
-
 export default function Page() {
   const { scrollYProgress } = useScroll();
   const glowY = useTransform(scrollYProgress, [0, 1], ["0%", "60%"]);
@@ -62,15 +59,12 @@ export default function Page() {
     [0.3, 0.5, 0.2]
   );
 
-  
   return (
     <div className="relative min-h-screen w-full bg-black text-gray-100 overflow-hidden">
-      
       <div className="fixed inset-0 z-0 pointer-events-none">
         <Particles />
       </div>
-
-      <Meteors />
+        <Meteors />
 
       <motion.div
         style={{
