@@ -64,7 +64,7 @@ export default function Page() {
       <div className="fixed inset-0 z-0 pointer-events-none">
         <Particles />
       </div>
-        <Meteors />
+      <Meteors />
 
       <motion.div
         style={{
@@ -129,9 +129,9 @@ export default function Page() {
             </h2>
             <div className="space-y-4">
               {[
-                { name: "Ayush Singh", role: "", phone: "9125466700" },
-                { name: "Yug Agarwal", role: "", phone: "8299099721" },
-                { name: "Rajat Sharma", role: "", phone: "8972192855" },
+                { name: "Akshansh Singh", role: "", phone: "8448321696" },
+                { name: "Jayant Singhal", role: "", phone: "7878194515" },
+                { name: "Kaustubh Sharma", role: "", phone: "7976533487" },
               ].map((c, i) => (
                 <motion.div
                   key={i}
@@ -203,30 +203,34 @@ export default function Page() {
             {[
               {
                 title: "Single Day Pass",
-                price: "₹649",
-                desc: "Perfect for a day of excitement",
+                price: "₹699",
+                desc: "One thrilling day packed with events, music, and memories!",
                 perks: [
-                  "Full-day access to events and pronite",
-                  "Free accommodation for the day",
-                  "Participation in one event of choice",
+                  "Full-day access to all events and the pronite of your chosen day",
+                  "Free participation in one event of your choice",
+                  "Option without accommodation: ₹499",
+                  "Room upgrade for later available for ₹299",
                 ],
               },
               {
                 title: "3-Day Power Pass",
-                price: "₹949",
-                desc: "Ultimate festival experience",
+                price: "₹1199",
+                desc: "The ultimate 3-day fest adventure — all access, all excitement!",
                 perks: [
-                  "3 days of fun with complimentary stay",
-                  "Access to all pronites with top performances",
-                  "Extra perks, fun zones & surprises",
+                  "Unlimited access to all events and pronites for 3 days",
+                  "Free participation in any 3 events of your choice",
+                  "Exclusive entry to premium fest experiences and fun zones",
                 ],
                 featured: true,
               },
               {
-                title: "Add-On Events",
-                price: "₹149",
-                desc: "Per additional event",
-                perks: ["Join extra events", "No limits on participation"],
+                title: "Event Participation",
+                price: "₹199",
+                desc: "Join additional events and make your fest even bigger!",
+                perks: [
+                  "Access to one extra event of your choice",
+                  "No limit — participate in as many as you like!",
+                ],
               },
             ].map((p, i) => (
               <motion.div
@@ -276,22 +280,24 @@ export default function Page() {
           viewport={{ once: true, amount: 0.3 }}
         >
           <motion.div
-            className="group bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-xl border border-gray-700/50 rounded-2xl p-6 hover:border-yellow-400/50 transition-all duration-500 sm:p-8"
+            className="group bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-xl border border-gray-700/50 rounded-2xl p-6 hover:border-yellow-400/50 transition-all duration-500 sm:p-8 flex justify-between items-center flex-col"
             variants={cardVariants}
             custom={0.2}
             whileHover={{ scale: 1.02 }}
           >
+            <div>
+
             <div className="flex items-center mb-4 sm:mb-6 relative">
               <motion.div
                 className="w-2 h-6 bg-yellow-400 rounded-r-lg mr-3 sm:w-3 sm:h-8 sm:mr-4 relative"
                 animate={{ rotate: [0, 5, 0] }}
                 transition={{ duration: 2, repeat: Infinity }}
-              >
+                >
                 <motion.span
                   className="absolute inset-0 rounded-r-lg blur-md bg-yellow-400/50 opacity-70"
                   animate={{ opacity: [0.4, 1, 0.4] }}
                   transition={{ duration: 2, repeat: Infinity }}
-                />
+                  />
               </motion.div>
               <h2 className="text-xl font-bold text-white sm:text-2xl tracking-wide">
                 Group Discounts
@@ -302,7 +308,7 @@ export default function Page() {
               className="text-gray-300 mb-3 text-sm sm:text-base sm:mb-4"
               variants={fadeInUp}
               custom={0.4}
-            >
+              >
               Planning with{" "}
               <span className="text-yellow-400 font-semibold">
                 10 or more friends?
@@ -310,15 +316,16 @@ export default function Page() {
               Get exclusive discounts and added perks!
             </motion.p>
 
+            </div>
             <motion.div
-              className="bg-black/30 border border-yellow-400/20 rounded-xl p-3 sm:p-4 text-center"
+              className="bg-black/30 border border-yellow-400/20 rounded-xl p-3 w-full sm:p-4 text-center"
               whileHover={{
                 borderColor: "rgba(255,255,255,0.5)",
                 scale: 1.03,
               }}
             >
               <p className="text-white font-semibold text-sm sm:text-base">
-                Contact: <span className="text-yellow-400">9125466700</span>
+                Contact: <span className="text-yellow-400">7976533487</span>
               </p>
             </motion.div>
           </motion.div>
@@ -388,7 +395,7 @@ export default function Page() {
             >
               <p className="text-gray-400 text-center text-xs sm:text-sm">
                 For queries, contact us at{" "}
-                <span className="text-white font-semibold">9125466700</span>
+                <span className="text-white font-semibold">7976533487</span>
               </p>
             </motion.div>
           </motion.div>

@@ -30,7 +30,7 @@
     "**/*.mts",
     "**/*.ts",
     "**/*.tsx"
-  ],
+, "src/app/(app)/confirmRegistration/page.jsx"  ],
   "exclude": [
     "node_modules"
   ]

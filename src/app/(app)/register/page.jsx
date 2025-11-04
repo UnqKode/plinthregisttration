@@ -3,7 +3,7 @@ import { useRouter } from "next/navigation";
 import { Particles } from "../../../components/ui/particles"; // Assuming this path is correct for your project
 import { useState } from "react";
 import { Orbitron } from "next/font/google";
-import {useData } from "../../../context/form.context"
+import { useData } from "../../../context/form.context";
 
 const orbitron = Orbitron({
   subsets: ["latin"],
@@ -21,15 +21,18 @@ export default function Page() {
   const [selectedEvents, setSelectedEvents] = useState([]);
   const [referral, setReferral] = useState("");
   const [comments, setComments] = useState("");
+  
+  // --- 1. NEW STATE for Accommodation ---
+  const [needsAccommodation, setNeedsAccommodation] = useState(false);
 
   const events = [
-    { id: "coding", name: "Coding Cascade", icon: "💻", price: 149 },
-    { id: "hackathon", name: "24-Hour Hackathon", icon: "🔥", price: 149 },
-    { id: "robo", name: "Robo Race Championship", icon: "🤖", price: 149 },
-    { id: "quiz", name: "Tech Quiz Master", icon: "🧠", price: 149 },
-    { id: "drone", name: "Drone Racing League", icon: "🚁", price: 149 },
-    { id: "ai", name: "AI/ML Workshop", icon: "🤖", price: 149 },
-    { id: "gaming", name: "E-Sports Tournament", icon: "🎮", price: 149 },
+    { id: "coding", name: "Coding Cascade", icon: "💻", price: 199 },
+    { id: "hackathon", name: "24-Hour Hackathon", icon: "🔥", price: 199 },
+    { id: "robo", name: "Robo Race Championship", icon: "🤖", price: 199 },
+    { id: "quiz", name: "Tech Quiz Master", icon: "🧠", price: 199 },
+    { id: "drone", name: "Drone Racing League", icon: "🚁", price: 199 },
+    { id: "ai", name: "AI/ML Workshop", icon: "🤖", price: 199 },
+    { id: "gaming", name: "E-Sports Tournament", icon: "🎮", price: 199 },
   ];
 
   const addMember = () => {
@@ -60,18 +63,21 @@ export default function Page() {
       return 1499; // Price for all 3 days
     }
     if (day === "DAY1" || day === "DAY2" || day === "DAY3") {
-      return 649; // Price for a single day
+      return 699; // Price for a single day
     }
     return 0; // No day selected
   };
 
   const basePricePerMember = getBasePrice();
-  const eventPricePerMember = selectedEvents.length * 149;
+  const eventPricePerMember = selectedEvents.length * 199;
 
-  // --- CORE LOGIC CHANGE ---
-  // The total is now (base + events) * number of members
-  const totalAmount =
+  // --- 2. CORE LOGIC CHANGE (with Accommodation) ---
+  const baseTotal =
     (basePricePerMember + eventPricePerMember) * members.length;
+  const accommodationCost = needsAccommodation ? 200 * members.length : 0;
+
+  // The total is now (base + events) * number of members + accommodation
+  const totalAmount = baseTotal + accommodationCost;
   // --- END OF LOGIC CHANGE ---
 
   const handleSubmit = (e) => {
@@ -83,12 +89,13 @@ export default function Page() {
       selectedEvents,
       referral,
       comments,
+      needsAccommodation, // --- ADDED to data ---
       totalAmount,
-    }
-    
+    };
+
     setFormData(finalData);
-    console.log("Saved in context", finalData)
-    router.push("/confirmRegistration")
+    console.log("Saved in context", finalData);
+    router.push("/confirmRegistration");
     alert("Form submitted successfully!");
   };
 
@@ -106,7 +113,7 @@ export default function Page() {
       <div className="fixed inset-0 bg-[linear-gradient(rgba(0,255,136,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(0,255,136,0.03)_1px,transparent_1px)] bg-[size:50px_50px]" />
 
       {/* Form Container */}
-      
+
       <div className="relative z-10 bg-gradient-to-br from-black/5 to-white/10 backdrop-blur-xl border border-gray-800/50 rounded-3xl p-6 sm:p-8 max-w-4xl w-full shadow-[0_0_80px_rgba(0,255,136,0.1)]">
         {/* Header */}
         <div className={`text-center mb-8 ${orbitron.className}`}>
@@ -133,14 +140,10 @@ export default function Page() {
               required
             >
               <option value="">Select Day (Required)</option>
-              <option value="DAY1">
-                Day 1 - Opening Ceremony (₹649/member)
-              </option>
-              <option value="DAY2">Day 2 - Tech Events (₹649/member)</option>
-              <option value="DAY3">Day 3 - Grand Finale (₹649/member)</option>
-              <option value="All">
-                All 3 Days - Grand Pass (₹1499/member)
-              </option>
+              <option value="DAY1">Day 1 - Opening Ceremony</option>
+              <option value="DAY2">Day 2 - Tech Events </option>
+              <option value="DAY3">Day 3 - Grand Finale</option>
+              <option value="All">All 3 Days - Grand Pass</option>
             </select>
           </div>
 
@@ -338,7 +341,7 @@ export default function Page() {
 
           <div className="h-px bg-gradient-to-r from-transparent via-gray-800 to-transparent" />
 
-          {/* --- Price Summary (Updated for Per-Member) --- */}
+          {/* --- 3. Price Summary (Updated with Accommodation) --- */}
           <div className="bg-gradient-to-r from-cyan-500/10 to-emerald-500/10 border border-cyan-500/30 rounded-2xl p-6">
             <div className="space-y-2 mb-4">
               {basePricePerMember > 0 && (
@@ -375,7 +378,34 @@ export default function Page() {
                   × {members.length}
                 </span>
               </div>
+              {/* --- NEW: Show the base total --- */}
+              <div className="flex items-center justify-between text-md pt-1 border-t border-gray-700/50">
+                <span className="text-gray-300 font-semibold">
+                  Registration Total
+                </span>
+                <span className="text-white font-semibold">₹{baseTotal}</span>
+              </div>
             </div>
+
+            {/* --- NEW ACCOMMODATION CHECKBOX --- */}
+            <label className="flex items-center gap-3 cursor-pointer p-3 mb-4 bg-gray-900/50 border border-gray-700 rounded-xl transition-all hover:border-gray-600">
+              <input
+                type="checkbox"
+                checked={needsAccommodation}
+                onChange={(e) => setNeedsAccommodation(e.target.checked)}
+                className="h-4 w-4 rounded bg-gray-800 border-gray-600 text-cyan-400 focus:ring-cyan-500"
+              />
+              <div className="flex-1">
+                <span className="text-white font-semibold text-sm">
+                  Add Accommodation?
+                </span>
+                <p className="text-xs text-gray-400">
+                  Adds ₹200 per member (Total: ₹{200 * members.length})
+                </p>
+              </div>
+            </label>
+            {/* --- END NEW --- */}
+
             <div className="h-px bg-gray-700 mb-3" />
             <div className="flex items-center justify-between mb-2">
               <span className="text-gray-400 text-lg">Total Amount</span>
@@ -384,7 +414,7 @@ export default function Page() {
               </span>
             </div>
             <p className="text-xs text-gray-500">
-              Price is calculated as (Pass + Events) × Members.
+              Price is calculated as (Registration Total) + Accommodation.
             </p>
           </div>
           <div className="flex justify-center items-center gap-5">
