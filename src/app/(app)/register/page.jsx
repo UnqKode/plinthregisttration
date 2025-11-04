@@ -90,7 +90,7 @@ export default function Page() {
       referral,
       comments,
       needsAccommodation, // --- ADDED to data ---
-      totalAmount,
+      totalAmount : totalAmount.toString(),
     };
 
     setFormData(finalData);

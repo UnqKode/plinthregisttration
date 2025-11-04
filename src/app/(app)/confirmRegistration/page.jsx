@@ -74,8 +74,8 @@ export default function PaymentPage() {
       const submissionData = {
         ...formData,
         paymentProofUrl: uploadResult.url,
-        totalPrice,
-        taxAmount,
+        totalPrice : totalPrice.toString(),
+        taxAmount : taxAmount.toString(),
       };
 
       console.log("📤 Sending to Google Sheets:", submissionData);
