@@ -32,8 +32,8 @@ export default function PaymentPage() {
     ? 200 * formData.members.length
     : 0;
   // totalAmount from context already includes accommodation, so we subtract to show the base
-  const registrationCost = formData.totalAmount - accommodationCost;
-  const totalBeforeTax = formData.totalAmount; // This is the subtotal
+  const registrationCost = parseFloat(formData.totalAmount) - accommodationCost;
+  const totalBeforeTax = parseFloat(formData.totalAmount); // This is the subtotal
   const taxAmount = totalBeforeTax * 0.18;
   const totalPrice = totalBeforeTax + taxAmount;
 

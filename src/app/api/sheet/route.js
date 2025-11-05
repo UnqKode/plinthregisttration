@@ -2,7 +2,7 @@
 
 import { NextResponse } from 'next/server';
 
-const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyrWcxnDclJr1TUyMu2eJTSbItdabHMIuz9_17dTD_oF_YAdqoeJ7rp3NWhG-KLe3HS/exec";
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw8Kp30qVGl894KGyXKrHZB_2rE9PY50MWnVr48e9j9WWvqx-H85LL5zuHE73mQQUu7/exec";
 
 export async function POST(request) {
     try {

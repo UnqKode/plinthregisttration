@@ -86,6 +86,7 @@ export default function Page() {
     const finalData = {
       day,
       members,
+      teamSize : (members.length).toString(),
       selectedEvents,
       referral,
       comments,
