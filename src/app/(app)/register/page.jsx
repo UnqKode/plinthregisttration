@@ -21,7 +21,7 @@ export default function Page() {
   const [selectedEvents, setSelectedEvents] = useState([]);
   const [referral, setReferral] = useState("");
   const [comments, setComments] = useState("");
-  
+
   // --- 1. NEW STATE for Accommodation ---
   const [needsAccommodation, setNeedsAccommodation] = useState(false);
 
@@ -72,13 +72,88 @@ export default function Page() {
   const eventPricePerMember = selectedEvents.length * 199;
 
   // --- 2. CORE LOGIC CHANGE (with Accommodation) ---
-  const baseTotal =
-    (basePricePerMember + eventPricePerMember) * members.length;
+  const baseTotal = (basePricePerMember + eventPricePerMember) * members.length;
   const accommodationCost = needsAccommodation ? 200 * members.length : 0;
 
   // The total is now (base + events) * number of members + accommodation
   const totalAmount = baseTotal + accommodationCost;
   // --- END OF LOGIC CHANGE ---
+
+  const validatedFinalData = (data) => {
+    // === 1️⃣ BASIC VALIDATION ===
+    if (!data.day) {
+      alert("⚠️ Please select a day pass before proceeding.");
+      return false;
+    }
+
+    if (!data.members || data.members.length === 0) {
+      alert("👥 Please add at least one team member.");
+      return false;
+    }
+
+    // === 2️⃣ TEAM MEMBER VALIDATION ===
+    for (let i = 0; i < data.members.length; i++) {
+      const member = data.members[i];
+      const missingFields = [];
+
+      if (!member.name) missingFields.push("Name");
+      if (!member.college) missingFields.push("College");
+      if (!member.contact) missingFields.push("Contact Number");
+      if (!member.email) missingFields.push("Email");
+
+      if (missingFields.length > 0) {
+        alert(
+          `⚠️ Incomplete information for Member ${
+            i + 1
+          }.\n\nMissing fields: ${missingFields.join(
+            ", "
+          )}.\n\nPlease fill them before submitting.`
+        );
+        return false;
+      }
+
+      if (!/^\d{10}$/.test(member.contact)) {
+        alert(
+          `📞 Invalid contact number for Member ${
+            i + 1
+          }. Please enter a 10-digit phone number.`
+        );
+        return false;
+      }
+
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(member.email)) {
+        alert(
+          `📧 Invalid email format for Member ${
+            i + 1
+          }. Please enter a valid email address.`
+        );
+        return false;
+      }
+    }
+
+    if (!data.selectedEvents || data.selectedEvents.length === 0) {
+      alert("🎯 Please select at least one event to participate in.");
+      return false;
+    }
+
+    if (!data.totalAmount || isNaN(Number(data.totalAmount))) {
+      alert("💰 Invalid total amount. Please recheck your selections.");
+      return false;
+    }
+
+    if (Number(data.totalAmount) <= 0) {
+      alert("💸 Total amount cannot be zero or negative.");
+      return false;
+    }
+
+    if (data.needsAccommodation && data.day !== "day3") {
+      alert("🏠 Accommodation is available only for Day 3 participants.");
+      return false;
+    }
+
+    console.log("✅ Validation successful:", data);
+    return true;
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -86,18 +161,22 @@ export default function Page() {
     const finalData = {
       day,
       members,
-      teamSize : (members.length).toString(),
+      teamSize: members.length.toString(),
       selectedEvents,
       referral,
       comments,
       needsAccommodation, // --- ADDED to data ---
-      totalAmount : totalAmount.toString(),
+      totalAmount: totalAmount.toString(),
     };
+
+    if (!validatedFinalData(finalData)) {
+      return;
+    }
 
     setFormData(finalData);
     console.log("Saved in context", finalData);
     router.push("/confirmRegistration");
-    alert("Form submitted successfully!");
+    alert("Team registered successfully!");
   };
 
   const backPage = () => {
