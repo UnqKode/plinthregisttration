@@ -1,6 +1,7 @@
 import { Geist, Geist_Mono, Poppins, Inter } from "next/font/google";
 import "./globals.css";
 import { DataProvider } from "../context/form.context"; // ✅ import your context
+import { Analytics } from '@vercel/analytics/next';
 
 // 🧠 Load fonts with CSS variables
 const geistSans = Geist({
@@ -43,7 +44,10 @@ export default function RootLayout({ children }) {
           antialiased
         `}
       >
-        <DataProvider>{children}</DataProvider>
+        <DataProvider>
+          {children}
+          <Analytics />
+        </DataProvider>
       </body>
     </html>
   );
