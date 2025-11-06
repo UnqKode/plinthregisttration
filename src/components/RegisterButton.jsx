@@ -15,9 +15,9 @@ export default function RegisterButton() {
         boxShadow: "0 0 20px rgba(255,255,255,0.2)",
       }}
       whileTap={{ scale: 0.95 }}
-      className="relative overflow-hidden px-8 py-3 rounded-xl bg-black text-white font-semibold tracking-wide border border-gray-700 transition-all duration-300 hover:border-white hover:text-gray-200"
+      className="relative min-w-[25vw] overflow-hidden px-8 py-3 rounded-xl bg-black text-white font-semibold tracking-wide border border-gray-700 transition-all duration-300 hover:border-white hover:text-black"
     >
-      <span className="relative z-10">Register</span>
+      <span className="relative z-10 ">Register</span>
       <motion.span
         initial={{ opacity: 0 }}
         whileHover={{ opacity: 1 }}
