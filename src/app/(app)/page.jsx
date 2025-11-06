@@ -203,12 +203,11 @@ export default function Page() {
             {[
               {
                 title: "Single Day Pass",
-                price: "₹699",
+                price: "₹499",
                 desc: "One thrilling day packed with events, music, and memories!",
                 perks: [
                   "Full-day access to all events and the pronite of your chosen day",
                   "Free participation in one event of your choice",
-                  "Option without accommodation: ₹499",
                   "Room upgrade for later available for ₹299",
                 ],
               },
@@ -218,7 +217,7 @@ export default function Page() {
                 desc: "The ultimate 3-day fest adventure — all access, all excitement!",
                 perks: [
                   "Unlimited access to all events and pronites for 3 days",
-                  "Free participation in any 3 events of your choice",
+                  "Free participation in any 1 events of your choice",
                   "Exclusive entry to premium fest experiences and fun zones",
                 ],
                 featured: true,
@@ -259,15 +258,7 @@ export default function Page() {
                     </li>
                   ))}
                 </ul>
-                <button
-                  className={`w-full py-2 rounded-xl font-semibold ${
-                    p.featured
-                      ? "bg-white text-black hover:bg-gray-200"
-                      : "bg-white/10 hover:bg-white/20 text-white"
-                  } transition`}
-                >
-                  Select
-                </button>
+                
               </motion.div>
             ))}
           </div>

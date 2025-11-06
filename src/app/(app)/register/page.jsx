@@ -60,20 +60,24 @@ export default function Page() {
   // --- Price Calculation (Updated to be Per-Member) ---
   const getBasePrice = () => {
     if (day === "All") {
-      return 1499; // Price for all 3 days
+      return 1499; // Price for all 3 days.
     }
     if (day === "DAY1" || day === "DAY2" || day === "DAY3") {
-      return 699; // Price for a single day
+      return 499; // Price for a single day
     }
     return 0; // No day selected
   };
 
   const basePricePerMember = getBasePrice();
-  const eventPricePerMember = selectedEvents.length * 199;
+  const eventPricePerMember =
+    (selectedEvents.length > 0
+      ? selectedEvents.length - 1
+      : selectedEvents.length) * 199;
 
   // --- 2. CORE LOGIC CHANGE (with Accommodation) ---
   const baseTotal = (basePricePerMember + eventPricePerMember) * members.length;
-  const accommodationCost = needsAccommodation ? 200 * members.length : 0;
+  const accommodationCost =
+    day === "All" ? 0 : needsAccommodation ? 200 * members.length : 0;
 
   // The total is now (base + events) * number of members + accommodation
   const totalAmount = baseTotal + accommodationCost;
@@ -146,14 +150,14 @@ export default function Page() {
       return false;
     }
 
-    if (data.needsAccommodation && data.day !== "day3") {
-      alert("🏠 Accommodation is available only for Day 3 participants.");
-      return false;
-    }
+    // if (data.needsAccommodation && data.day !== "day3") {
+    //   alert("🏠 Accommodation is available only for Day 3 participants.");
+    //   return false;
+    // }
 
     console.log("✅ Validation successful:", data);
     return true;
-  }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -165,7 +169,7 @@ export default function Page() {
       selectedEvents,
       referral,
       comments,
-      needsAccommodation, // --- ADDED to data ---
+      needsAccommodation: day === "All" ? true : needsAccommodation, // ✅ fixed case
       totalAmount: totalAmount.toString(),
     };
 
@@ -220,10 +224,10 @@ export default function Page() {
               required
             >
               <option value="">Select Day (Required)</option>
-              <option value="DAY1">Day 1 - Opening Ceremony</option>
-              <option value="DAY2">Day 2 - Tech Events </option>
-              <option value="DAY3">Day 3 - Grand Finale</option>
-              <option value="All">All 3 Days - Grand Pass</option>
+              <option value="DAY1">Day 1</option>
+              <option value="DAY2">Day 2</option>
+              <option value="DAY3">Day 3</option>
+              <option value="All">3 Day Power Pass</option>
             </select>
           </div>
 
@@ -366,7 +370,9 @@ export default function Page() {
                         {event.name}
                       </h4>
                       <p className="text-blue-300 text-xs font-semibold">
-                        +₹{event.price} (per member)
+                        {selectedEvents.length > 1
+                          ? `+₹${event.price} (per member)`
+                          : `Select One For Free`}
                       </p>
                     </div>
                     {selectedEvents.includes(event.id) && (
@@ -471,10 +477,13 @@ export default function Page() {
             <label className="flex items-center gap-3 cursor-pointer p-3 mb-4 bg-gray-900/50 border border-gray-700 rounded-xl transition-all hover:border-gray-600">
               <input
                 type="checkbox"
+                disabled={day === "All"}
                 checked={needsAccommodation}
                 onChange={(e) => setNeedsAccommodation(e.target.checked)}
-                className="h-4 w-4 rounded bg-gray-800 border-gray-600 text-cyan-400 focus:ring-cyan-500"
+                className={`h-4 w-4 rounded bg-gray-800 border-gray-600 text-cyan-400 focus:ring-cyan-500 
+    ${day === "All" ? "opacity-50 cursor-not-allowed" : ""}`}
               />
+
               <div className="flex-1">
                 <span className="text-white font-semibold text-sm">
                   Add Accommodation?

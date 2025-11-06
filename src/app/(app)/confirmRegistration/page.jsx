@@ -3,7 +3,7 @@ import { useRouter } from "next/navigation";
 import { Particles } from "../../../components/ui/particles";
 import { useData } from "../../../context/form.context";
 import { useEffect, useState } from "react";
-import LoadingScreem from "../../../components/Loading"
+import LoadingScreem from "../../../components/Loading";
 
 export default function PaymentPage() {
   const router = useRouter();
@@ -74,8 +74,8 @@ export default function PaymentPage() {
       const submissionData = {
         ...formData,
         paymentProofUrl: uploadResult.url,
-        totalPrice : totalPrice.toString(),
-        taxAmount : taxAmount.toString(),
+        totalPrice: totalPrice.toString(),
+        taxAmount: taxAmount.toString(),
       };
 
       console.log("📤 Sending to Google Sheets:", submissionData);
@@ -109,10 +109,8 @@ export default function PaymentPage() {
     }
   };
 
-  if(isSubmitting){
-    return(
-      <LoadingScreem />
-    )
+  if (isSubmitting) {
+    return <LoadingScreem />;
   }
 
   return (
@@ -289,18 +287,36 @@ export default function PaymentPage() {
                   htmlFor="payment-proof"
                   className="cursor-pointer block border-2 border-dashed border-gray-700 rounded-lg p-8 text-center transition-colors hover:border-gray-500"
                 >
-                  <input
-                    type="file"
-                    id="payment-proof"
-                    className="hidden"
-                    onChange={handleFileChange}
-                    accept="image/*,.pdf"
-                  />
+                  <div className="space-y-2">
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => setFile(e.target.files[0])}
+                      className="bg-gray-800 text-gray-200 p-2 rounded w-full"
+                    />
+
+                    {/* Show selected file name and remove option */}
+                    {file && (
+                      <div className="flex items-center justify-between text-sm text-gray-300">
+                        <span className="truncate max-w-[70%]">
+                          {file.name}
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => setFile(null)}
+                          className="text-red-400 hover:text-red-300 underline"
+                        >
+                          Remove
+                        </button>
+                      </div>
+                    )}
+                  </div>
+
                   <div className="text-blue-400 font-semibold mb-2">
-                    {file ? file.name : "Click to select proof"}
+                    {file ? file.name : "Click above to select proof"}
                   </div>
                   <span className="text-gray-400 text-sm">
-                    (PNG, JPG, or PDF)
+                    Max Limit 2MB (PNG, JPG)
                   </span>
                 </label>
                 {/* --- End of Corrected Input --- */}
@@ -314,7 +330,7 @@ export default function PaymentPage() {
 
                 <div className="bg-gray-800 rounded-lg p-4">
                   <p className="text-gray-300 text-sm">
-                    For issues with taxes or discounts, contact{" "}
+                    Facing Problem? Contact {" "}
                     <span className="font-semibold text-white">
                       Kaustubh Sharm
                     </span>{" "}
