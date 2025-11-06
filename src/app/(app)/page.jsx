@@ -208,6 +208,7 @@ export default function Page() {
                 perks: [
                   "Full-day access to all events and the pronite of your chosen day",
                   "Free participation in one event of your choice",
+                  "Extra 200 for Accomodation",
                   "Room upgrade for later available for ₹299",
                 ],
               },
@@ -219,6 +220,7 @@ export default function Page() {
                   "Unlimited access to all events and pronites for 3 days",
                   "Free participation in any 1 events of your choice",
                   "Exclusive entry to premium fest experiences and fun zones",
+                  "Room upgrade for later available for ₹299",
                 ],
                 featured: true,
               },
