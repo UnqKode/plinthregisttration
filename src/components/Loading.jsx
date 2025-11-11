@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function LoadingScreen() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black flex items-center justify-center relative overflow-hidden">
+    <div className="absolute min-h-screen bg-gradient-to-br from-black via-gray-900 to-black h-screen w-screen z-20 flex items-center justify-center  overflow-hidden">
       {/* Animated background particles */}
       <div className="absolute inset-0">
         {[...Array(50)].map((_, i) => (

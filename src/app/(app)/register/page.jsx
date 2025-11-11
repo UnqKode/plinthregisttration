@@ -1,9 +1,10 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { Particles } from "../../../components/ui/particles"; // Assuming this path is correct for your project
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Orbitron } from "next/font/google";
 import { useData } from "../../../context/form.context";
+import toast from "react-hot-toast";
 
 const orbitron = Orbitron({
   subsets: ["latin"],
@@ -24,15 +25,328 @@ export default function Page() {
 
   // --- 1. NEW STATE for Accommodation ---
   const [needsAccommodation, setNeedsAccommodation] = useState(false);
+  const [codes, setCodes] = useState();
+
+  useEffect(() => {
+    const fetchCodes = async () => {
+      try {
+        const res = await fetch("/api/fetchcode");
+        const data = await res.json();
+
+        if (data.success) {
+          setCodes(data.data);
+          console.log("Datav FEtched");
+        } else {
+          console.error("API Error:", data.error);
+        }
+      } catch (err) {
+        console.error("Fetch failed:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCodes();
+  }, []);
 
   const events = [
-    { id: "coding", name: "Coding Cascade", icon: "💻", price: 199 },
-    { id: "hackathon", name: "24-Hour Hackathon", icon: "🔥", price: 199 },
-    { id: "robo", name: "Robo Race Championship", icon: "🤖", price: 199 },
-    { id: "quiz", name: "Tech Quiz Master", icon: "🧠", price: 199 },
-    { id: "drone", name: "Drone Racing League", icon: "🚁", price: 199 },
-    { id: "ai", name: "AI/ML Workshop", icon: "🤖", price: 199 },
-    { id: "gaming", name: "E-Sports Tournament", icon: "🎮", price: 199 },
+    // PHEONIX
+    {
+      id: "nitro_racing",
+      name: "Nitro Racing",
+      icon: "🏎️",
+      price: 199,
+      club: "PHEONIX",
+      description:
+        "Build, race, and conquer the track with your custom RC car.",
+    },
+    {
+      id: "robocup",
+      name: "Robocup",
+      icon: "🤖",
+      price: 199,
+      club: "PHEONIX",
+      description:
+        "Autonomous robots clash in the ultimate test of soccer skills.",
+    },
+    {
+      id: "roborace",
+      name: "Roborace",
+      icon: "🚗",
+      price: 199,
+      club: "PHEONIX",
+      description:
+        "Navigate a treacherous course with your line-following bot.",
+    },
+    {
+      id: "moto_boat",
+      name: "Moto Boat",
+      icon: "🚤",
+      price: 199,
+      club: "PHEONIX",
+      description: "Rule the waves in a high-speed RC boat racing challenge.",
+    },
+    {
+      id: "robo_transporter",
+      name: "Robo Transporter",
+      icon: "🤖",
+      price: 199,
+      club: "PHEONIX",
+      description:
+        "Design a bot to efficiently pick, place, and transport items.",
+    },
+    {
+      id: "rc_plane",
+      name: "RC Plane",
+      icon: "✈️",
+      price: 199,
+      club: "PHEONIX",
+      description:
+        "Take to the skies and show off your aerial acrobatic skills.",
+    },
+    {
+      id: "drone_racing",
+      name: "Drone Racing",
+      icon: "🚁",
+      price: 199,
+      club: "PHEONIX",
+      description: "FPV racing through a complex 3D obstacle course.",
+    },
+    {
+      id: "micro_mouse",
+      name: "Micro Mouse",
+      icon: "🐭",
+      price: 199,
+      club: "PHEONIX",
+      description:
+        "Can your smart mouse solve and escape the maze the fastest?",
+    },
+    {
+      id: "maze_solver",
+      name: "Maze Solver",
+      icon: "🧩",
+      price: 199,
+      club: "PHEONIX",
+      description:
+        "Program an autonomous bot to find its way out of a complex maze.",
+    },
+    {
+      id: "tech_expo",
+      name: "Tech Expo",
+      icon: "🔬",
+      price: 199,
+      club: "PHEONIX",
+      description:
+        "Showcase your innovative technical project and wow the judges.",
+    },
+    {
+      id: "robowars",
+      name: "Robowars",
+      icon: "⚔️",
+      price: 199,
+      club: "PHEONIX",
+      description:
+        "Sparks will fly! Battle it out in the ultimate robotics combat arena.",
+    },
+
+    // CYBROS
+    {
+      id: "alice_bob",
+      name: "Alice, Bob, Go!",
+      icon: "💻",
+      price: 199,
+      club: "CYBROS",
+      description: "A team-based competitive programming relay. Speed is key!",
+    },
+    {
+      id: "coding_cascade",
+      name: "Coding Cascade",
+      icon: "🧠",
+      price: 199,
+      club: "CYBROS",
+      description:
+        "Solve a series of problems where the output of one is the input for the next.",
+    },
+    {
+      id: "cp_duels",
+      name: "CP Duels",
+      icon: "⚔️",
+      price: 199,
+      club: "CYBROS",
+      description:
+        "Go head-to-head in a fast-paced 1v1 competitive programming battle.",
+    },
+    {
+      id: "enigma",
+      name: "Enigma",
+      icon: "🕵️‍♂️",
+      price: 199,
+      club: "CYBROS",
+      description:
+        "A cryptic hunt that will test your logic, security, and lateral thinking.",
+    },
+    {
+      id: "iudp",
+      name: "IUPC",
+      icon: "💡",
+      price: 199,
+      club: "CYBROS",
+      description:
+        "The classic Inter-University Programming Contest. Glory awaits.",
+    },
+
+    // ASTRO
+    {
+      id: "astromemia",
+      name: "Astromemia",
+      icon: "🌌",
+      price: 199,
+      club: "ASTRO",
+      description:
+        "Combine your love for space and memes in this cosmic creative contest.",
+    },
+    {
+      id: "starpix",
+      name: "StarPix",
+      icon: "📸",
+      price: 199,
+      club: "ASTRO",
+      description:
+        "Astro-photography contest. Capture the beauty of the cosmos.",
+    },
+    {
+      id: "bhahmaand",
+      name: "Bhahmaand",
+      icon: "🪐",
+      price: 199,
+      club: "ASTRO",
+      description:
+        "Test your cosmic knowledge in the ultimate space-themed quiz.",
+    },
+
+    // E-CELL
+    {
+      id: "sharktank",
+      name: "SharkTank",
+      icon: "🦈",
+      price: 199,
+      club: "E-CELL",
+      description:
+        "Pitch your groundbreaking startup idea to a panel of expert 'sharks'.",
+    },
+    {
+      id: "ideathon",
+      name: "Ideathon",
+      icon: "💡",
+      price: 199,
+      club: "E-CELL",
+      description:
+        "Brainstorm and develop innovative solutions to real-world problems.",
+    },
+
+    // ESPORTS
+    {
+      id: "clash_royals",
+      name: "Clash Royals",
+      icon: "⚔️",
+      price: 199,
+      club: "ESPORTS",
+      description:
+        "The bridge is yours. Compete in this fast-paced mobile strategy duel.",
+    },
+    {
+      id: "fifa",
+      name: "FIFA",
+      icon: "⚽",
+      price: 199,
+      club: "ESPORTS",
+      description:
+        "Virtual pitch, real glory. Settle the score in the classic football sim.",
+    },
+    {
+      id: "smashkarts",
+      name: "SmashKarts",
+      icon: "🚗",
+      price: 199,
+      club: "ESPORTS",
+      description:
+        "Frantic kart racing with power-ups and mayhem. Last one standing wins.",
+    },
+    {
+      id: "bgmi",
+      name: "BGMI",
+      icon: "🎮",
+      price: 199,
+      club: "ESPORTS",
+      description:
+        "Drop, loot, and survive. Battle to be the last squad standing.",
+    },
+    {
+      id: "valorant",
+      name: "Valorant",
+      icon: "🔫",
+      price: 199,
+      club: "ESPORTS",
+      description:
+        "Tactical 5v5 shooter. Clove-clutching, spike-planting action.",
+    },
+
+    // QUIZZINGA
+    {
+      id: "ipl_auction",
+      name: "IPL Auction",
+      icon: "🏏",
+      price: 199,
+      club: "QUIZZINGA",
+      description:
+        "Build your dream team with a limited budget in this strategic mock auction.",
+    },
+    {
+      id: "cryptex",
+      name: "Cryptex",
+      icon: "🧠",
+      price: 199,
+      club: "QUIZZINGA",
+      description:
+        "A challenging cryptic crossword and puzzle hunt for word-nerds.",
+    },
+    {
+      id: "brand_wagon",
+      name: "Brand Wagon",
+      icon: "📊",
+      price: 199,
+      club: "QUIZZINGA",
+      description:
+        "How well do you know your logos, slogans, and ad jingles? Test it here.",
+    },
+
+    // DEBATE SOCIETY
+    {
+      id: "mun",
+      name: "MUN",
+      icon: "🗣️",
+      price: 199,
+      club: "DEBATE SOCIETY",
+      description:
+        "Model United Nations. Debate global issues and forge alliances.",
+    },
+    {
+      id: "change_my_mind",
+      name: "CHANGE MY MIND",
+      icon: "💬",
+      price: 199,
+      club: "DEBATE SOCIETY",
+      description: "A 1-on-1 informal debate. Can you defend your hot takes?",
+    },
+    {
+      id: "graffiti_wall",
+      name: "GRAFFITI WALL",
+      icon: "🎨",
+      price: 199,
+      club: "DEBATE SOCIETY",
+      description:
+        "Express your views on a topic... with spray paint and stencils.",
+    },
   ];
 
   const addMember = () => {
@@ -60,7 +374,7 @@ export default function Page() {
   // --- Price Calculation (Updated to be Per-Member) ---
   const getBasePrice = () => {
     if (day === "All") {
-      return 1499; // Price for all 3 days.
+      return 1199; // Price for all 3 days.
     }
     if (day === "DAY1" || day === "DAY2" || day === "DAY3") {
       return 499; // Price for a single day
@@ -86,13 +400,20 @@ export default function Page() {
   const validatedFinalData = (data) => {
     // === 1️⃣ BASIC VALIDATION ===
     if (!data.day) {
-      alert("⚠️ Please select a day pass before proceeding.");
+      toast("⚠️ Please select a day pass before proceeding.");
       return false;
     }
 
     if (!data.members || data.members.length === 0) {
-      alert("👥 Please add at least one team member.");
+      toast("👥 Please add at least one team member.");
       return false;
+    }
+
+    if (data.referral) {
+      if (!codes.includes(data.referral)) {
+        toast("Invalid Referral Code");
+        return false;
+      }
     }
 
     // === 2️⃣ TEAM MEMBER VALIDATION ===
@@ -106,7 +427,7 @@ export default function Page() {
       if (!member.email) missingFields.push("Email");
 
       if (missingFields.length > 0) {
-        alert(
+        toast(
           `⚠️ Incomplete information for Member ${
             i + 1
           }.\n\nMissing fields: ${missingFields.join(
@@ -117,7 +438,7 @@ export default function Page() {
       }
 
       if (!/^\d{10}$/.test(member.contact)) {
-        alert(
+        toast(
           `📞 Invalid contact number for Member ${
             i + 1
           }. Please enter a 10-digit phone number.`
@@ -126,7 +447,7 @@ export default function Page() {
       }
 
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(member.email)) {
-        alert(
+        toast(
           `📧 Invalid email format for Member ${
             i + 1
           }. Please enter a valid email address.`
@@ -136,26 +457,20 @@ export default function Page() {
     }
 
     if (!data.selectedEvents || data.selectedEvents.length === 0) {
-      alert("🎯 Please select at least one event to participate in.");
+      toast("🎯 Please select at least one event to participate in.");
       return false;
     }
 
     if (!data.totalAmount || isNaN(Number(data.totalAmount))) {
-      alert("💰 Invalid total amount. Please recheck your selections.");
+      toast("💰 Invalid total amount. Please recheck your selections.");
       return false;
     }
 
     if (Number(data.totalAmount) <= 0) {
-      alert("💸 Total amount cannot be zero or negative.");
+      toast("💸 Total amount cannot be zero or negative.");
       return false;
     }
 
-    // if (data.needsAccommodation && data.day !== "day3") {
-    //   alert("🏠 Accommodation is available only for Day 3 participants.");
-    //   return false;
-    // }
-
-    console.log("✅ Validation successful:", data);
     return true;
   };
 
@@ -178,14 +493,21 @@ export default function Page() {
     }
 
     setFormData(finalData);
-    console.log("Saved in context", finalData);
+    // console.log("Saved in context", finalData);
     router.push("/confirmRegistration");
-    alert("Team registered successfully!");
+    toast("Team registered successfully!");
   };
 
   const backPage = () => {
     router.back();
   };
+
+  const getUniqueClubs = (events) => {
+    const clubs = events.map((event) => event.club);
+    return [...new Set(clubs)]; // Creates an array of unique club names
+  };
+
+  const uniqueClubs = getUniqueClubs(events);
 
   return (
     <div className="relative min-h-screen w-full overflow-auto bg-black flex items-center justify-center py-12 px-4">
@@ -224,10 +546,12 @@ export default function Page() {
               required
             >
               <option value="">Select Day (Required)</option>
-              <option value="DAY1">Day 1</option>
-              <option value="DAY2">Day 2</option>
-              <option value="DAY3">Day 3</option>
-              <option value="All">3 Day Power Pass</option>
+              <option value="DAY1">Day 1 ( Less goo - 23rd Jan) </option>
+              <option value="DAY2">Day 2 ( Fun starts - 24th jan) </option>
+              <option value="DAY3">Day 3( Pronite - 🍻25th jan ) </option>
+              <option value="All">
+                3 days power pass ( Fun day everyday ){" "}
+              </option>
             </select>
           </div>
 
@@ -351,37 +675,95 @@ export default function Page() {
               </span>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {events.map((event) => (
-                <button
-                  key={event.id}
-                  type="button"
-                  onClick={() => toggleEvent(event.id)}
-                  className={`relative p-4 rounded-xl border-2 transition-all text-left ${
-                    selectedEvents.includes(event.id)
-                      ? "border-white bg-gray-400/10"
-                      : "border-gray-800 bg-gray-900/50 hover:border-gray-700"
-                  }`}
-                >
-                  <div className="flex items-start gap-3 ">
-                    <span className="text-2xl">{event.icon}</span>
-                    <div className="flex-1">
-                      <h4 className="text-white font-semibold text-sm mb-1">
-                        {event.name}
-                      </h4>
-                      <p className="text-blue-300 text-xs font-semibold">
-                        {selectedEvents.length > 1
-                          ? `+₹${event.price} (per member)`
-                          : `Select One For Free`}
-                      </p>
-                    </div>
-                    {selectedEvents.includes(event.id) && (
-                      <div className="w-5 h-5 bg-cyan-400 rounded-full flex items-center justify-center flex-shrink-0">
-                        <span className="text-black text-xs">✓</span>
-                      </div>
-                    )}
+            <div className="space-y-6">
+              {uniqueClubs.map((club) => (
+                <div key={club} className="space-y-4">
+                  {/* Club Header */}
+                  <h3 className="text-xl font-semibold text-cyan-300 tracking-wider">
+                    {club}
+                  </h3>
+
+                  {/* Grid for this club's events */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    {events
+                      .filter((event) => event.club === club) // Filter events for this club
+                      .map((event) => (
+                        <button
+                          key={event.id}
+                          type="button"
+                          onClick={() => toggleEvent(event.id)}
+                          className={`group relative p-5 rounded-2xl border-2 transition-all duration-300 text-left overflow-hidden ${
+                            selectedEvents.includes(event.id)
+                              ? "border-cyan-400/50 bg-gradient-to-br from-cyan-500/10 via-blue-500/10 to-purple-500/10 shadow-lg shadow-cyan-500/20"
+                              : "border-gray-700/50 bg-gray-800/40 hover:border-gray-600 hover:bg-gray-800/60 hover:shadow-md"
+                          }`}
+                        >
+                          {/* Subtle gradient overlay on hover */}
+                          <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
+                          <div className="relative flex items-start gap-4">
+                            {/* Icon with animated background */}
+                            <div
+                              className={`flex-shrink-0 w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-300 ${
+                                selectedEvents.includes(event.id)
+                                  ? "bg-gradient-to-br from-cyan-400 to-blue-500 shadow-lg shadow-cyan-500/30 scale-110"
+                                  : "bg-gray-700/50 group-hover:bg-gray-700 group-hover:scale-105"
+                              }`}
+                            >
+                              <span className="text-2xl">{event.icon}</span>
+                            </div>
+
+                            {/* Content */}
+                            <div className="flex-1 min-w-0">
+                              <h4 className="text-white font-semibold text-base mb-1.5 group-hover:text-cyan-300 transition-colors">
+                                {event.name}
+                              </h4>
+                              <p className="text-sm text-gray-400 transition-all duration-300 opacity-0 max-h-0 group-hover:opacity-100 group-hover:max-h-40 mb-0 group-hover:mb-2">
+                                {event.description}
+                              </p>
+
+                              {/* Price / Status */}
+                              <p
+                                className={`text-xs font-semibold transition-colors ${
+                                  selectedEvents.includes(event.id)
+                                    ? "text-cyan-300"
+                                    : "text-gray-400 group-hover:text-blue-300"
+                                }`}
+                              >
+                                {selectedEvents.length > 1
+                                  ? `+₹${event.price} (per member)`
+                                  : `Select One For Free`}
+                              </p>
+                            </div>
+
+                            {/* Checkmark with animation */}
+                            <div
+                              className={`flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center transition-all duration-300 ${
+                                selectedEvents.includes(event.id)
+                                  ? "bg-gradient-to-br from-cyan-400 to-cyan-500 shadow-lg shadow-cyan-500/40 scale-100 rotate-0"
+                                  : "bg-gray-700/30 scale-0 rotate-45"
+                              }`}
+                            >
+                              <span
+                                className={`text-sm font-bold transition-all ${
+                                  selectedEvents.includes(event.id)
+                                    ? "text-gray-900"
+                                    : "text-gray-500"
+                                }`}
+                              >
+                                ✓
+                              </span>
+                            </div>
+                          </div>
+
+                          {/* Bottom accent line for selected state */}
+                          {selectedEvents.includes(event.id) && (
+                            <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500" />
+                          )}
+                        </button>
+                      ))}
                   </div>
-                </button>
+                </div>
               ))}
             </div>
 

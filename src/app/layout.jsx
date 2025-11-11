@@ -2,6 +2,7 @@ import { Geist, Geist_Mono, Poppins, Inter } from "next/font/google";
 import "./globals.css";
 import { DataProvider } from "../context/form.context"; // ✅ import your context
 import { Analytics } from '@vercel/analytics/next';
+import toast, { Toaster } from 'react-hot-toast';
 
 // 🧠 Load fonts with CSS variables
 const geistSans = Geist({
@@ -46,6 +47,7 @@ export default function RootLayout({ children }) {
       >
         <DataProvider>
           {children}
+          <Toaster />
           <Analytics />
         </DataProvider>
       </body>

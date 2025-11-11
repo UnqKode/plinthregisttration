@@ -129,9 +129,9 @@ export default function Page() {
             </h2>
             <div className="space-y-4">
               {[
+                { name: "Kaustubh Sharma", role: "", phone: "7976533487" },
                 { name: "Akshansh Singh", role: "", phone: "8448321696" },
                 { name: "Jayant Singhal", role: "", phone: "7878194515" },
-                { name: "Kaustubh Sharma", role: "", phone: "7976533487" },
               ].map((c, i) => (
                 <motion.div
                   key={i}
@@ -161,14 +161,14 @@ export default function Page() {
             className="bg-white/5 border border-white/10 backdrop-blur-xl rounded-2xl p-8 shadow-[0_0_40px_rgba(255,255,255,0.03)] hover:border-white/20 transition-all"
           >
             <h2 className="text-2xl font-bold mb-6 text-white">
-              Event Guidelines
+               Before You Dive into the Magic
             </h2>
             <ul className="space-y-3 text-gray-300">
               {[
                 "Pronite extends until 1 AM for everyone's enjoyment",
-                "Attendees are discouraged from leaving after Pronite for safety",
-                "Complimentary accommodation with every Pronite pass",
-                "Your safety is our top priority — please cooperate",
+                "For your comfort and safety, we recommend enjoying the full night on campus instead of traveling late.",
+                "Every ProNite pass comes with free accommodation, so just relax and enjoy the vibes. ",
+                "Our team and volunteers are here round the clock , please cooperate and let’s make Plinth ‘26 unforgettable and safe for everyone!",
               ].map((rule, i) => (
                 <motion.li
                   key={i}
@@ -206,10 +206,10 @@ export default function Page() {
                 price: "₹499",
                 desc: "One thrilling day packed with events, music, and memories!",
                 perks: [
-                  "Full-day access to all events and the pronite of your chosen day",
-                  "Free participation in one event of your choice",
-                  "Extra ₹200 for Accomodation",
-                  "Room upgrade for later available for ₹299",
+                  " Full-day access to all events and the ProNite of your chosen day ",
+                  "Free participation in one flagship event of your choice ",
+                  "Access to fest food stalls, fun zones, and after-hour hangouts",
+                  "Special festival kit with goodies & badges",
                 ],
               },
               {
@@ -217,10 +217,12 @@ export default function Page() {
                 price: "₹1199",
                 desc: "The ultimate 3-day fest adventure — all access, all excitement!",
                 perks: [
-                  "Unlimited access to all events and pronites for 3 days",
-                  "Enjoy free accommodation and complimentary entry to any one event of your choice.",
-                  "Exclusive entry to premium fest experiences and fun zones",
-                  "Room upgrade for later available for ₹299",
+                  "Complimentary access to Pronites & workshops for 3 days",
+                  "Complimentary accommodation for the entire fest duration.",
+                  "Free participation in any one flagship event",
+                  "Free participation in any one fun event ",
+                  "Exclusive access to premium zones, after parties, and artist meet & greets ",
+                  "Get your official Plinth ‘26 wristband & fest kit"
                 ],
                 featured: true,
               },
@@ -244,13 +246,34 @@ export default function Page() {
                     : "bg-white/5 border-white/10"
                 } backdrop-blur-xl hover:border-white/30 transition-all`}
               >
+                <div className="flex justify-between items-center">
+
                 {p.featured && (
                   <p className="text-xs mb-2 bg-white text-black px-3 py-1 rounded-full inline-block font-semibold">
                     MOST POPULAR
                   </p>
                 )}
+                {p.featured && (
+                  <p className="text-xs mb-2 bg-yellow-300 text-black px-3 py-1 rounded-full inline-block font-semibold">
+                    EARLY BIRD OFFER
+                  </p>
+                )}
+                </div>
                 <h3 className="text-xl font-bold text-white">{p.title}</h3>
-                <p className="text-3xl font-black text-white my-3">{p.price}</p>
+                <p className="text-3xl font-black text-white my-3">
+                  {p.price === "₹499" && (
+                    <span className="line-through text-gray-400 mr-2">
+                      ₹699
+                    </span>
+                  )}
+                  {p.price === "₹1199" && (
+                    <span className="line-through text-gray-400 mr-2">
+                      ₹1499
+                    </span>
+                  )}
+                  <span>{p.price}</span>
+                </p>
+
                 <p className="text-gray-400 mb-4">{p.desc}</p>
                 <ul className="space-y-2 mb-6">
                   {p.perks.map((perk, j) => (
@@ -260,7 +283,6 @@ export default function Page() {
                     </li>
                   ))}
                 </ul>
-                
               </motion.div>
             ))}
           </div>
@@ -279,36 +301,35 @@ export default function Page() {
             whileHover={{ scale: 1.02 }}
           >
             <div>
-
-            <div className="flex items-center mb-4 sm:mb-6 relative">
-              <motion.div
-                className="w-2 h-6 bg-yellow-400 rounded-r-lg mr-3 sm:w-3 sm:h-8 sm:mr-4 relative"
-                animate={{ rotate: [0, 5, 0] }}
-                transition={{ duration: 2, repeat: Infinity }}
-                >
-                <motion.span
-                  className="absolute inset-0 rounded-r-lg blur-md bg-yellow-400/50 opacity-70"
-                  animate={{ opacity: [0.4, 1, 0.4] }}
+              <div className="flex items-center mb-4 sm:mb-6 relative">
+                <motion.div
+                  className="w-2 h-6 bg-yellow-400 rounded-r-lg mr-3 sm:w-3 sm:h-8 sm:mr-4 relative"
+                  animate={{ rotate: [0, 5, 0] }}
                   transition={{ duration: 2, repeat: Infinity }}
+                >
+                  <motion.span
+                    className="absolute inset-0 rounded-r-lg blur-md bg-yellow-400/50 opacity-70"
+                    animate={{ opacity: [0.4, 1, 0.4] }}
+                    transition={{ duration: 2, repeat: Infinity }}
                   />
-              </motion.div>
-              <h2 className="text-xl font-bold text-white sm:text-2xl tracking-wide">
-                Group Discounts
-              </h2>
-            </div>
+                </motion.div>
+                <h2 className="text-xl font-bold text-white sm:text-2xl tracking-wide">
+                  Group Discounts
+                </h2>
+              </div>
 
-            <motion.p
-              className="text-gray-300 mb-3 text-sm sm:text-base sm:mb-4"
-              variants={fadeInUp}
-              custom={0.4}
+              <motion.p
+                className="text-gray-300 mb-3 text-sm sm:text-base sm:mb-4 w-full flex-col"
+                variants={fadeInUp}
+                custom={0.4}
               >
-              Planning with{" "}
-              <span className="text-yellow-400 font-semibold">
-                10 or more friends?
-              </span>{" "}
-              Get exclusive discounts and added perks!
-            </motion.p>
-
+                Bringing your{" "}
+                <span className="text-yellow-400 font-semibold">
+                  entire squad to Plinth?
+                </span>{" "}
+                
+Contact for Discounts & Details: 
+              </motion.p>
             </div>
             <motion.div
               className="bg-black/30 border border-yellow-400/20 rounded-xl p-3 w-full sm:p-4 text-center"
