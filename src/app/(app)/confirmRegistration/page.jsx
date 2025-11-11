@@ -162,12 +162,13 @@ export default function PaymentPage() {
                     {formData.members.length} member(s)
                   </span>
                 </div>
+                {formData.referral &&
                 <div className="flex justify-between">
                   <span className="text-gray-400">Referral Code:</span>
                   <span className="font-medium text-right">
-                    {formData.referral} member(s)
+                    {formData.referral}
                   </span>
-                </div>
+                </div>}
               </div>
 
               {/* Right Column: Price Details */}
