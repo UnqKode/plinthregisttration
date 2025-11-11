@@ -5,7 +5,6 @@ import { useData } from "../../../context/form.context";
 import { useEffect, useState } from "react";
 import LoadingScreem from "../../../components/Loading";
 import toast from "react-hot-toast";
-import qr from "../../../../public/lnmgymkhanaqr.png";
 
 export default function PaymentPage() {
   const router = useRouter();
@@ -271,14 +270,14 @@ export default function PaymentPage() {
                     {/* Placeholder for QR Code - Replace with actual QR */}
                     <div className="w-48 h-48 bg-white flex items-center justify-center">
                       <img
-                        src="/qrcode.png"
+                        src={formData.referral? "/referal.jpg" : "/qrcode.png"}
                         alt="LNMIIT Gymkhana Payment QR Code"
                         className="w-full h-full object-fill"
                       />
                     </div>
                   </div>
                   <p className="text-lg font-mono bg-gray-800 p-3 rounded border border-gray-700">
-                    LNMGYMKHANAFUND@SBI
+                    {formData.referral? "PLINTH PR" : "LNMGYMKHANAFUND@SBI"}
                   </p>
                   <p className="text-sm text-gray-400 mt-4">
                     Pay the <strong className="text-white">Total Price</strong>{" "}
