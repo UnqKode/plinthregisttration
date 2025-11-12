@@ -5,7 +5,20 @@ import { NextResponse } from "next/server";
 const GOOGLE_SCRIPT_URL =
   "https://script.google.com/macros/s/AKfycbxVZ5nKqACxnLX_7J27wNMZmqkeuihXDWIagtaCisna3rPGvyap-YP96rn5p2WRjAs/exec";
 
+let cache = {
+  data: null,
+  timestamp: 0,
+};
+
 export async function GET(request) {
+  const now = Date.now();
+  const isExpired = now - cache.timestamp > 1000 * 60 * 5; 
+
+  if (!isExpired && cache.data) {
+    console.log("⚡ Serving from cache", cache.data);
+    return Response.json(cache.data);
+  }
+
   try {
     console.log("📤 Fetching referral codes from Google Sheets...");
 
@@ -26,6 +39,13 @@ export async function GET(request) {
     if (!response.ok) {
       throw new Error(result.message || "Failed to fetch referral codes");
     }
+
+    cache = {
+      data: result,
+      timestamp: now,
+    };
+
+    console.log("✅ Cache updated at:", new Date(now).toLocaleTimeString());
 
     return NextResponse.json(result);
   } catch (error) {

@@ -175,7 +175,7 @@ export default function PaymentPage() {
                 <div className="flex justify-between">
                   <span className="text-gray-400">Accommodation:</span>
                   <span className="font-medium text-right">
-                    {formData.needsAccommodation ? "Yes" : "No"}
+                    {formData.day === "All" ? "Yes" : formData.needsAccommodation ? "Yes" : "No"}
                   </span>
                 </div>
                 <div className="h-px bg-gray-700/50"></div>

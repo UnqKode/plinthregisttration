@@ -214,7 +214,7 @@ export default function Page() {
               },
               {
                 title: "3-Day Power Pass",
-                price: "₹1199",
+                price: "₹999",
                 desc: "The ultimate 3-day fest adventure — all access, all excitement!",
                 perks: [
                   "Complimentary access to Pronites & workshops for 3 days",
@@ -260,15 +260,15 @@ export default function Page() {
                 )}
                 </div>
                 <h3 className="text-xl font-bold text-white">{p.title}</h3>
-                <p className="text-3xl font-black text-white my-3">
+                <p className="text-3xl font-bold text-white my-3">
                   {p.price === "₹499" && (
                     <span className="line-through text-gray-400 mr-2">
                       ₹699
                     </span>
                   )}
-                  {p.price === "₹1199" && (
+                  {p.price === "₹999" && (
                     <span className="line-through text-gray-400 mr-2">
-                      ₹1499
+                      ₹1199
                     </span>
                   )}
                   <span>{p.price}</span>

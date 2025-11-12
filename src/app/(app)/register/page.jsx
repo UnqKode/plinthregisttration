@@ -374,7 +374,7 @@ export default function Page() {
   // --- Price Calculation (Updated to be Per-Member) ---
   const getBasePrice = () => {
     if (day === "All") {
-      return 1199; // Price for all 3 days.
+      return 999; // Price for all 3 days.
     }
     if (day === "DAY1" || day === "DAY2" || day === "DAY3") {
       return 499; // Price for a single day
@@ -437,11 +437,11 @@ export default function Page() {
         return false;
       }
 
-      if (!/^\d{10}$/.test(member.contact)) {
+      if (!/^(?:\+91)?\d{10}$/.test(member.contact)) {
         toast(
           `📞 Invalid contact number for Member ${
             i + 1
-          }. Please enter a 10-digit phone number.`
+          }. Please enter a valid phone number.`
         );
         return false;
       }
@@ -484,7 +484,7 @@ export default function Page() {
       selectedEvents,
       referral,
       comments,
-      needsAccommodation: day === "All" ? true : needsAccommodation, // ✅ fixed case
+      needsAccommodation: day === "All" ? false : needsAccommodation, // ✅ fixed case
       totalAmount: totalAmount.toString(),
     };
 
@@ -860,7 +860,7 @@ export default function Page() {
               <input
                 type="checkbox"
                 disabled={day === "All"}
-                checked={needsAccommodation}
+                checked={day === "All"? true : needsAccommodation}
                 onChange={(e) => setNeedsAccommodation(e.target.checked)}
                 className={`h-4 w-4 rounded bg-gray-800 border-gray-600 text-cyan-400 focus:ring-cyan-500 
     ${day === "All" ? "opacity-50 cursor-not-allowed" : ""}`}
