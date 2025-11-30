@@ -528,7 +528,7 @@ export default function Page() {
           </h1>
           <div className="w-24 h-1 bg-gradient-to-r from-gray-500 to-gray-200 mx-auto mb-4 rounded-full" />
           <p className="text-gray-400 text-sm">
-            Register for LNMIIT Plinth 2025
+            Register for LNMIIT Plinth 2026
           </p>
         </div>
 

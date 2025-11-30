@@ -59,7 +59,7 @@ export default function SpaceFooter() {
         <div className="border-t border-white/10 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <p className="text-sm text-gray-400">
-              © 2025 GDG LNMIIT. All rights reserved.
+              © 2026 GDG LNMIIT. All rights reserved.
             </p>
             <div className="flex items-center space-x-2">
               <span className="text-sm text-gray-400">Designed & Developed by</span>
