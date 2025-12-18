@@ -1,6 +1,6 @@
 "use client";
 import { useRouter } from "next/navigation";
-import { Particles } from "../../../components/ui/particles";
+import { motion } from "framer-motion";
 import { useData } from "../../../context/form.context";
 import { useEffect, useState } from "react";
 import LoadingScreem from "../../../components/Loading";
@@ -55,7 +55,6 @@ export default function PaymentPage() {
     setIsSubmitting(true);
 
     try {
-      // Step 1: Upload proof to Cloudinary
       const uploadData = new FormData();
       uploadData.append("file", file);
 
@@ -69,9 +68,6 @@ export default function PaymentPage() {
         throw new Error(uploadResult.error || "Payment proof upload failed.");
       }
 
-      // console.log("✅ Cloudinary URL:", uploadResult.url);
-
-      // Step 2: Prepare data for Google Sheets
       const submissionData = {
         ...formData,
         paymentProofUrl: uploadResult.url,
@@ -79,9 +75,6 @@ export default function PaymentPage() {
         taxAmount: taxAmount.toString(),
       };
 
-      // console.log("📤 Sending to Google Sheets:", submissionData);
-
-      // Step 3: Send to Google Sheets via Next.js API proxy
       const sheetRes = await fetch("/api/sheet", {
         method: "POST",
         headers: {
@@ -116,17 +109,42 @@ export default function PaymentPage() {
 
   return (
     <>
-      <div className="min-h-screen bg-black text-white p-4 py-8">
-        <div className="fixed inset-0 z-0 w-full h-screen">
-          <Particles />
+      <div className="min-h-screen bg-black text-white p-4 py-6">
+        {/* Nebula Background */}
+        <div className="fixed inset-0 z-0 w-full h-full pointer-events-none">
+          <img
+            src="https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?q=80&w=2000&auto=format&fit=crop"
+            alt="Space Background"
+            className="w-full h-full object-cover opacity-50"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/50 to-black"></div>
         </div>
 
-        <div className="relative z-10 max-w-4xl mx-auto">
-          <h1 className="text-3xl font-bold text-center mb-8">Payment Page</h1>
+        <motion.div 
+          className="relative z-10 max-w-5xl mx-auto"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          <motion.h1 
+            className="text-4xl font-bold text-center mb-2 bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text text-transparent"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2, duration: 0.6 }}
+          >
+            Confirm Your Registration
+          </motion.h1>
+          <p className="text-center text-gray-400 mb-6 text-sm">Complete your payment to secure your spot at Plinth 2026</p>
 
           {/* Booking Details */}
-          <div className="bg-gray-900 rounded-xl p-6 border border-gray-800 mb-8">
-            <h2 className="text-xl font-semibold mb-6 text-white border-b border-gray-700 pb-3">
+          <motion.div 
+            className="bg-gray-900/40 backdrop-blur-xl rounded-2xl p-6 border border-purple-500/20 mb-6 shadow-lg shadow-purple-500/10"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3, duration: 0.6 }}
+          >
+            <h2 className="text-2xl font-semibold mb-5 text-white border-b border-gray-700/50 pb-3 flex items-center gap-2">
+              <span className="text-2xl">📋</span>
               Booking Summary
             </h2>
 
@@ -214,11 +232,17 @@ export default function PaymentPage() {
                 </div>
               </div>
             </div>
-          </div>
+          </motion.div>
 
           {/* Members Table */}
-          <div className="bg-gray-900 rounded-xl p-6 border border-gray-800 mb-8">
-            <h2 className="text-xl font-semibold mb-4 text-white">
+          <motion.div 
+            className="bg-gray-900/40 backdrop-blur-xl rounded-2xl p-6 border border-blue-500/20 mb-6 shadow-lg shadow-blue-500/10"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4, duration: 0.6 }}
+          >
+            <h2 className="text-2xl font-semibold mb-4 text-white flex items-center gap-2">
+              <span className="text-2xl">👥</span>
               Team Members
             </h2>
             <div className="overflow-x-auto">
@@ -255,70 +279,79 @@ export default function PaymentPage() {
                 </tbody>
               </table>
             </div>
-          </div>
+          </motion.div>
 
           {/* --- 3. Form for Payment Submission --- */}
           <form onSubmit={handleSubmit}>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <motion.div 
+              className="grid grid-cols-1 lg:grid-cols-2 gap-6"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5, duration: 0.6 }}
+            >
               {/* QR Code */}
-              <div className="bg-gray-900 rounded-xl p-6 border border-gray-800">
-                <h2 className="text-xl font-semibold mb-4 text-white">
-                  1. Scan QR Code to Pay
+              <div className="bg-gray-900/40 backdrop-blur-xl rounded-2xl p-6 border border-green-500/20 shadow-lg shadow-green-500/10 hover:border-green-500/40 transition-all duration-300">
+                <h2 className="text-xl font-semibold mb-4 text-white flex items-center gap-2">
+                  <span className="text-2xl">💳</span>
+                  Step 1: Scan QR Code
                 </h2>
                 <div className="text-center">
-                  <div className="bg-white p-4 rounded-lg inline-block mb-4">
-                    {/* Placeholder for QR Code - Replace with actual QR */}
-                    <div className="w-48 h-48 bg-white flex items-center justify-center">
-                      <img
-                        src={formData.referral? "/referal.jpg" : "/qrcode.png"}
-                        alt="LNMIIT Gymkhana Payment QR Code"
-                        className="w-full h-full object-fill"
-                      />
+                  <div className="bg-gradient-to-br from-green-400/10 to-blue-400/10 p-1 rounded-xl inline-block mb-4 group hover:from-green-400/20 hover:to-blue-400/20 transition-all duration-300">
+                    <div className="bg-white p-4 rounded-lg">
+                      {/* Placeholder for QR Code - Replace with actual QR */}
+                      <div className="w-48 h-48 bg-white flex items-center justify-center">
+                        <img
+                          src={formData.referral? "/referal.jpg" : "/qrcode.png"}
+                          alt="LNMIIT Gymkhana Payment QR Code"
+                          className="w-full h-full object-fill"
+                        />
+                      </div>
                     </div>
                   </div>
-                  <p className="text-lg font-mono bg-gray-800 p-3 rounded border border-gray-700">
+                  <p className="text-lg font-mono bg-gray-800/60 backdrop-blur-sm p-3 rounded-lg border border-gray-700/50">
                     {formData.referral? "PLINTH PR" : "LNMGYMKHANAFUND@SBI"}
                   </p>
-                  <p className="text-sm text-gray-400 mt-4">
-                    Pay the <strong className="text-white">Total Price</strong>{" "}
-                    of{" "}
-                    <strong className="text-green-400">
-                      ₹{totalPrice.toFixed(2)}
-                    </strong>
-                  </p>
+                  <div className="mt-4 p-3 bg-green-500/10 border border-green-500/30 rounded-lg">
+                    <p className="text-sm text-gray-300">
+                      Pay exactly <strong className="text-white text-lg">₹{totalPrice.toFixed(2)}</strong>
+                    </p>
+                    <p className="text-xs text-green-400 mt-1">Amount includes 18% GST</p>
+                  </div>
                 </div>
               </div>
 
               {/* Upload Proof */}
-              <div className="bg-gray-900 rounded-xl p-6 border border-gray-800">
-                <h2 className="text-xl font-semibold mb-4 text-white">
-                  2. Upload Payment Proof
+              <div className="bg-gray-900/40 backdrop-blur-xl rounded-2xl p-6 border border-purple-500/20 shadow-lg shadow-purple-500/10 hover:border-purple-500/40 transition-all duration-300">
+                <h2 className="text-xl font-semibold mb-4 text-white flex items-center gap-2">
+                  <span className="text-2xl">📤</span>
+                  Step 2: Upload Proof
                 </h2>
 
                 <div className="space-y-4">
                   {/* --- 4. Corrected File Input --- */}
                   <label
                     htmlFor="payment-proof"
-                    className="cursor-pointer block border-2 border-dashed border-gray-700 rounded-lg p-8 text-center transition-colors hover:border-gray-500"
+                    className="cursor-pointer block border-2 border-dashed border-purple-500/30 rounded-xl p-6 text-center transition-all duration-300 hover:border-purple-500/60 hover:bg-purple-500/5"
                   >
-                    <div className="space-y-2">
+                    <div className="space-y-3">
+                      <div className="text-purple-400 text-4xl mb-2">📁</div>
                       <input
                         type="file"
                         accept="image/*"
                         onChange={(e) => setFile(e.target.files[0])}
-                        className="bg-gray-800 text-gray-200 p-2 rounded w-full"
+                        className="bg-gray-800/60 backdrop-blur-sm text-gray-200 p-3 rounded-lg w-full border border-gray-700/50 focus:border-purple-500/50 focus:outline-none transition-colors"
                       />
 
                       {/* Show selected file name and remove option */}
                       {file && (
-                        <div className="flex items-center justify-between text-sm text-gray-300">
-                          <span className="truncate max-w-[70%]">
-                            {file.name}
+                        <div className="flex items-center justify-between text-sm bg-green-500/10 border border-green-500/30 rounded-lg p-3">
+                          <span className="truncate max-w-[70%] text-green-300 flex items-center gap-2">
+                            <span>✓</span> {file.name}
                           </span>
                           <button
                             type="button"
                             onClick={() => setFile(null)}
-                            className="text-red-400 hover:text-red-300 underline"
+                            className="text-red-400 hover:text-red-300 font-medium transition-colors"
                           >
                             Remove
                           </button>
@@ -326,55 +359,63 @@ export default function PaymentPage() {
                       )}
                     </div>
 
-                    <div className="text-blue-400 font-semibold mb-2">
-                      {file ? file.name : "Click above to select proof"}
+                    <div className="text-gray-300 font-medium mt-3">
+                      {file ? "File selected successfully!" : "Upload your payment screenshot"}
                     </div>
-                    <span className="text-gray-400 text-sm">
-                      Max Limit 2MB (PNG, JPG)
+                    <span className="text-gray-500 text-sm">
+                      Supported formats: PNG, JPG (Max 2MB)
                     </span>
                   </label>
                   {/* --- End of Corrected Input --- */}
 
-                  <div className="bg-yellow-900/20 border border-yellow-800 rounded-lg p-4">
-                    <p className="text-yellow-200 text-sm">
-                      After submitting, please wait for confirmation. Do not
-                      refresh the page.
+                  <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-xl p-4 backdrop-blur-sm">
+                    <p className="text-yellow-200 text-sm flex items-start gap-2">
+                      <span className="text-lg">⚠️</span>
+                      <span>After submitting, please wait for confirmation. Do not refresh the page.</span>
                     </p>
                   </div>
 
-                  <div className="bg-gray-800 rounded-lg p-4">
-                    <p className="text-gray-300 text-sm">
-                      Facing Problem? Contact{" "}
-                      <span className="font-semibold text-white">
-                        Kaustubh Sharm
-                      </span>{" "}
-                      at{" "}
-                      <span className="font-semibold text-white">
-                        7976533487
+                  <div className="bg-blue-500/10 border border-blue-500/30 rounded-xl p-4 backdrop-blur-sm">
+                    <p className="text-blue-200 text-sm flex items-start gap-2">
+                      <span className="text-lg">💬</span>
+                      <span>
+                        Need help? Contact{" "}
+                        <span className="font-semibold text-white">
+                          Kaustubh Sharma
+                        </span>{" "}
+                        at{" "}
+                        <a href="tel:7976533487" className="font-semibold text-blue-400 hover:text-blue-300 transition-colors">
+                          7976533487
+                        </a>
                       </span>
-                      .
                     </p>
                   </div>
                 </div>
               </div>
-            </div>
+            </motion.div>
 
             {/* --- 5. New Submit Button --- */}
-            <div className="mt-8">
+            <motion.div 
+              className="mt-6"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6, duration: 0.6 }}
+            >
               <button
                 type="submit"
                 disabled={!file || isSubmitting}
-                className="w-full bg-green-600 text-white font-bold text-lg py-4 rounded-xl transition-all
-                         hover:bg-green-500
-                         disabled:bg-gray-600 disabled:text-gray-400 disabled:cursor-not-allowed"
+                className="w-full bg-gradient-to-r from-green-600 to-emerald-600 text-white font-bold text-lg py-4 rounded-xl transition-all transform
+                         hover:from-green-500 hover:to-emerald-500 hover:scale-[1.02] hover:shadow-lg hover:shadow-green-500/30
+                         disabled:from-gray-700 disabled:to-gray-800 disabled:text-gray-500 disabled:cursor-not-allowed disabled:scale-100 disabled:shadow-none
+                         active:scale-[0.98]"
               >
                 {isSubmitting
-                  ? "Submitting, please wait..."
-                  : "Confirm & Submit Payment"}
+                  ? "⏳ Submitting, please wait..."
+                  : "✨ Confirm & Submit Payment"}
               </button>
-            </div>
+            </motion.div>
           </form>
-        </div>
+        </motion.div>
       </div>
     </>
   );

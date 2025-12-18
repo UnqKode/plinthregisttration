@@ -1,50 +1,54 @@
-// Create this file at: src/app/api/submit-to-sheets/route.js
-
 import { NextResponse } from 'next/server';
-
-const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw8Kp30qVGl894KGyXKrHZB_2rE9PY50MWnVr48e9j9WWvqx-H85LL5zuHE73mQQUu7/exec";
-const GOOGLE_SCRIPT_URL2 = "https://script.google.com/macros/s/AKfycbztdeOYQMZwraZ6XHXlTUCQe0iV5mZEe7t05naH7v31N4MYbXoSni68rsVvB_R-LxZk/exec";
+import { rateLimit } from '../../../lib/rate-limit';
+import { RegistrationSchema } from '../../../lib/validations'; // Keep Zod for validation
+import { headers } from 'next/headers';
+import dbConnect from '../../../lib/dbconnect';
+import Registration from '../../../models/Registration';
 
 export async function POST(request) {
     try {
+        // 1. Rate Limiting
+        const headerList = await headers();
+        const ip = headerList.get("x-forwarded-for") || "127.0.0.1";
+        const { success } = await rateLimit(ip);
+
+        if (!success) {
+            return NextResponse.json(
+                { status: 'error', message: 'Too many requests. Please try again later.' },
+                { status: 429 }
+            );
+        }
+
+        // 2. Input Validation
         const data = await request.json();
 
-        console.log("📤 Proxying request to Google Sheets...", data);
-
-        // Forward the request to Google Apps Script
-        const response = await fetch(GOOGLE_SCRIPT_URL, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(data),
-        });
-
-        const response2 = await fetch(GOOGLE_SCRIPT_URL2, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(data),
-        });
-
-
-        const responseText = await response.text();
-        console.log("📥 Response from Google Sheets:", responseText);
-
-        // Try to parse as JSON
-        let result;
-        try {
-            result = JSON.parse(responseText);
-        } catch {
-            // If not JSON, return as text
-            result = { status: 'success', message: responseText };
+        // Validate with Zod first
+        const validation = RegistrationSchema.safeParse(data);
+        if (!validation.success) {
+            console.error("❌ Validation Error:", validation.error);
+            return NextResponse.json(
+                { status: 'error', message: 'Invalid data format', errors: validation.error.flatten() },
+                { status: 400 }
+            );
         }
 
-        if (!response.ok) {
-            throw new Error(result.message || 'Failed to submit to Google Sheets');
-        }
+        // 3. Connect to MongoDB
+        await dbConnect();
 
-        return NextResponse.json(result);
+        // 4. Save to Database
+        console.log("💾 Saving to MongoDB...", data);
+        const newRegistration = await Registration.create(data);
+
+        console.log("✅ Saved to MongoDB:", newRegistration._id);
+
+        return NextResponse.json({
+            status: 'success',
+            message: 'Registration saved successfully!',
+            data: { id: newRegistration._id }
+        });
 
     } catch (error) {
-        console.error("❌ Error submitting to Google Sheets:", error);
+        console.error("❌ Error saving to MongoDB:", error);
         return NextResponse.json(
             {
                 status: 'error',
