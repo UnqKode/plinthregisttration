@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Orbitron } from "next/font/google";
 import { FileText, Users, ArrowRight } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 const orbitron = Orbitron({
   subsets: ["latin"],
@@ -36,6 +37,8 @@ export default function HeroSection() {
     minutes: 0,
     seconds: 0,
   });
+
+  const router = useRouter();
 
   useEffect(() => {
     // Target date: Jan 23, 2026
@@ -137,7 +140,7 @@ export default function HeroSection() {
 
         <button
           className="group px-6 py-3 rounded-full bg-gradient-to-r from-purple-600 to-blue-600 text-white font-semibold shadow-lg shadow-purple-500/20 transition-all hover:shadow-purple-500/40 hover:scale-105 active:scale-95 flex items-center justify-center gap-2"
-          onClick={() => window.open("/ambassador", "_blank")} // Replace with actual link
+          onClick={() => router.push("/ambassador", "_blank")} // Replace with actual link
         >
           <Users className="w-5 h-5" />
           <span>Campus Ambassador</span>

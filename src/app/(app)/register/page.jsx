@@ -93,7 +93,14 @@ export default function Page() {
         const res = await fetch("/api/fetchcode");
         const data = await res.json();
         if (data.success) {
-          setCodes(data.data);
+          // Map codes from the new object structure (column1) and discount (column2)
+          const extractedCodes = Array.isArray(data.data) 
+            ? data.data.map(item => ({
+                code: item.column1,
+                discount: parseFloat(item.column2) || 0 // Default to 0 if missing/invalid
+              })).filter(item => item.code)
+            : [];
+          setCodes(extractedCodes);
         }
       } catch (err) {
         console.error("Fetch failed:", err);
@@ -104,16 +111,17 @@ export default function Page() {
 
   // Filter events as user types
   useEffect(() => {
+    const available = events.filter(event => !selectedEvents.find(se => se.id === event.id));
+    
     if (eventInput.trim()) {
-      const filtered = events.filter(event =>
-        event.name.toLowerCase().includes(eventInput.toLowerCase()) &&
-        !selectedEvents.find(se => se.id === event.id)
+      const filtered = available.filter(event =>
+        event.name.toLowerCase().includes(eventInput.toLowerCase())
       );
       setFilteredEvents(filtered);
-      setShowEventDropdown(filtered.length > 0);
+      setShowEventDropdown(true); // Always keep open if typing, even if 0 results (though UI hides if 0)
     } else {
-      setFilteredEvents([]);
-      setShowEventDropdown(false);
+      setFilteredEvents(available);
+      // Do not auto-close here; let onBlur or selection handle closing
     }
   }, [eventInput, selectedEvents]);
 
@@ -196,7 +204,8 @@ export default function Page() {
       return false;
     }
 
-    if (data.referral && !codes.includes(data.referral)) {
+    const validCode = codes.find(c => c.code === data.referral);
+    if (data.referral && !validCode) {
       toast.error("❌ Invalid referral code!");
       return false;
     }
@@ -244,6 +253,7 @@ export default function Page() {
       teamSize: members.length.toString(),
       selectedEvents: selectedEvents.map(e => e.id),
       referral,
+      discountPercent: codes.find(c => c.code === referral)?.discount || 0,
       comments,
       needsAccommodation: day === "All" ? false : needsAccommodation,
       totalAmount: totalAmount.toString(),
@@ -554,7 +564,8 @@ export default function Page() {
                                 value={eventInput}
                                 onChange={(e) => setEventInput(e.target.value)}
                                 onKeyDown={handleEventInputKeyPress}
-                                onFocus={() => eventInput && setShowEventDropdown(true)}
+                                onFocus={() => setShowEventDropdown(true)}
+                                onBlur={() => setTimeout(() => setShowEventDropdown(false), 200)}
                                 placeholder="Search and add events..."
                                 className="w-full bg-black/50 border border-gray-700 rounded-xl px-4 py-3 pr-10 text-white placeholder-gray-600 focus:border-purple-500 focus:outline-none transition-colors"
                               />

@@ -31,7 +31,6 @@ export default function ContactAndInfo() {
   const importantInfo = [
     "Pronite extends until 1 AM for everyone's enjoyment",
     "For your comfort and safety, we recommend enjoying the full night on campus instead of traveling late.",
-    "Every ProNite pass comes with free accommodation, so just relax and enjoy the vibes. ",
     "Our team and volunteers are here round the clock , please cooperate and let's make Plinth '26 unforgettable and safe for everyone!",
   ];
 

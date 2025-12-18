@@ -9,6 +9,8 @@ import ContactAndInfo from "../../components/ContactAndInfo";
 import ExperienceSelector from "../../components/ExperienceSelector";
 import DiscountsAndRegistration from "../../components/DiscountsAndRegistration";
 import FooterSection from "../../components/FooterSection";
+import Footer from "../../components/Footer"
+
 
 export default function Page() {
   const { scrollYProgress } = useScroll();
@@ -60,6 +62,7 @@ export default function Page() {
         </div>
 
         <FooterSection />
+
       </div>
     </div>
   );

@@ -14,6 +14,7 @@ import {
   Phone,
   ExternalLink 
 } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 const orbitron = Orbitron({
   subsets: ["latin"],
@@ -51,6 +52,9 @@ const perks = [
 ];
 
 export default function AmbassadorPage() {
+
+    const router = useRouter()
+
   return (
     <div className="min-h-screen bg-black text-white relative overflow-hidden">
       {/* Background Image */}
@@ -111,15 +115,13 @@ export default function AmbassadorPage() {
           <p className="text-2xl text-white font-semibold mb-8">
             Join now and be part of something <span className="text-blue-400">extraordinary!</span> ✨
           </p>
-          <a
-            href="https://forms.gle/placeholder" // Replace with actual Google Form link
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 text-white font-bold text-lg shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50 hover:scale-105 transition-all duration-300"
-          >
-            Register Now
-            <ExternalLink className="w-5 h-5" />
-          </a>
+            <button
+                onClick={() => router.push("/ambassador-register")}
+              className="relative z-10 inline-flex items-center gap-3 px-10 py-5 rounded-full bg-white text-black font-bold text-lg hover:bg-gray-100 transform hover:scale-105 transition-all duration-300 shadow-[0_0_30px_rgba(255,255,255,0.3)] group"
+            >
+              <span>Apply Now</span>
+              <ExternalLink className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            </button>
         </motion.div>
 
         {/* Contact Footer */}

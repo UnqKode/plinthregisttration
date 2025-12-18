@@ -34,9 +34,15 @@ export default function PaymentPage() {
     : 0;
   // totalAmount from context already includes accommodation, so we subtract to show the base
   const registrationCost = parseFloat(formData.totalAmount) - accommodationCost;
-  const totalBeforeTax = parseFloat(formData.totalAmount); // This is the subtotal
-  const taxAmount = totalBeforeTax * 0.18;
-  const totalPrice = totalBeforeTax + taxAmount;
+  const totalBeforeDiscount = parseFloat(formData.totalAmount); 
+  
+  // Calculate Discount
+  const discountPercent = formData.discountPercent || 0;
+  const discountAmount = (totalBeforeDiscount * discountPercent) / 100;
+  
+  const totalAfterDiscount = totalBeforeDiscount - discountAmount;
+  const taxAmount = totalAfterDiscount * 0.18;
+  const totalPrice = totalAfterDiscount + taxAmount;
 
   const handleFileChange = (e) => {
     if (e.target.files && e.target.files[0]) {
@@ -94,7 +100,7 @@ export default function PaymentPage() {
 
       // console.log("✅ Successfully saved to Google Sheets");
       toast("🎉 Form submitted successfully!");
-      router.push("/"); // Redirect to home or success page
+      router.push("/thankyou"); // Redirect to home or success page
     } catch (err) {
       console.error("❌ Submission error:", err);
       toast(`An error occurred: ${err.message}. Please try again.`);
@@ -209,12 +215,22 @@ export default function PaymentPage() {
                     ₹{accommodationCost.toFixed(2)}
                   </span>
                 </div>
+               {/* Discount Row (Only if applied) */}
+                {discountPercent > 0 && (
+                  <div className="flex justify-between text-green-400">
+                    <span className="">Discount ({discountPercent}%):</span>
+                    <span className="font-medium text-right">
+                      -₹{discountAmount.toFixed(2)}
+                    </span>
+                  </div>
+                )}
+
                 <div className="flex justify-between text-md pt-2 border-t border-gray-700/50">
                   <span className="text-gray-300 font-semibold">
-                    Total Before Tax:
+                    Subtotal (After Discount):
                   </span>
                   <span className="font-semibold text-white text-right">
-                    ₹{totalBeforeTax.toFixed(2)}
+                    ₹{totalAfterDiscount.toFixed(2)}
                   </span>
                 </div>
                 <div className="flex justify-between">
