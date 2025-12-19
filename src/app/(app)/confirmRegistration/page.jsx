@@ -79,6 +79,7 @@ export default function PaymentPage() {
         paymentProofUrl: uploadResult.url,
         totalPrice: totalPrice.toString(),
         taxAmount: taxAmount.toString(),
+        discountedPrice: totalAfterDiscount.toString(),
       };
 
       const sheetRes = await fetch("/api/sheet", {

@@ -20,5 +20,6 @@ export const RegistrationSchema = z.object({
     paymentProofUrl: z.string().url("Invalid payment proof URL"),
     // Additional fields that might be passed
     taxAmount: z.string().or(z.number()).optional(),
+    discountedPrice: z.string().or(z.number()).optional(),
     totalPrice: z.string().or(z.number()).optional(),
 });

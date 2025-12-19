@@ -17,6 +17,7 @@ const RegistrationSchema = new mongoose.Schema(
         totalAmount: { type: String, required: true },
         paymentProofUrl: { type: String, required: true },
         taxAmount: { type: String },
+        discountedPrice: { type: String },
         totalPrice: { type: String },
     },
     { timestamps: true }
