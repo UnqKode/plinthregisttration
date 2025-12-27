@@ -88,10 +88,10 @@ export default function Page() {
   ];
 
   const zonalEvents = [
-    { id: "IITR_Image_based_webdev", name: "Image based web dev", price: 199, club: "IIT ROORKEE ZONALS" },
-    { id: "IITR_Product_management", name: "Product management", price: 199, club: "IIT ROORKEE ZONALS" },
-    { id: "IITR_App_dev", name: "App dev", price: 199, club: "IIT ROORKEE ZONALS" },
-    { id: "IITR_Wikirun", name: "Wikirun", price: 199, club: "IIT ROORKEE ZONALS" },
+    { id: "IITR_Image_based_webdev", name: "Snap Syntax", price: 199, club: "IIT ROORKEE ZONALS" },
+    { id: "IITR_Product_management", name: "Prod-G", price: 199, club: "IIT ROORKEE ZONALS" },
+    { id: "IITR_App_dev", name: "Appnova", price: 199, club: "IIT ROORKEE ZONALS" },
+    { id: "IITR_Wikirun", name: "WikiRun", price: 199, club: "IIT ROORKEE ZONALS" },
   ];
 
 
