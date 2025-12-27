@@ -36,10 +36,10 @@ export async function POST(request) {
         await dbConnect();
 
         // 4. Save to Database
-        console.log("💾 Saving to MongoDB...", data);
+        console.log("💾 Saving to MongoDB...");
         const newRegistration = await Registration.create(data);
 
-        console.log("✅ Saved to MongoDB:", newRegistration._id);
+        console.log("✅ Saved to MongoDB:");
 
         return NextResponse.json({
             status: 'success',

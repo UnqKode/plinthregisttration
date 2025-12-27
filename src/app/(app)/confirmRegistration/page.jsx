@@ -91,15 +91,12 @@ export default function PaymentPage() {
       });
 
       const sheetResult = await sheetRes.json();
-      // console.log("📥 Response from sheets:", sheetResult);
-
       if (!sheetRes.ok || sheetResult.status === "error") {
         throw new Error(
           sheetResult.message || "Failed to save to Google Sheets"
         );
       }
 
-      // console.log("✅ Successfully saved to Google Sheets");
       toast("🎉 Form submitted successfully!");
       router.push("/thankyou"); // Redirect to home or success page
     } catch (err) {

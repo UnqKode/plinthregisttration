@@ -25,7 +25,6 @@ export async function GET(request) {
   const isExpired = now - cache.timestamp > 1000 * 60 * 5; 
 
   if (!isExpired && cache.data) {
-    console.log("⚡ Serving from cache", cache.data);
     return Response.json(cache.data);
   }
 
@@ -37,7 +36,6 @@ export async function GET(request) {
     });
 
     const responseText = await response.text();
-    console.log("📥 Response from Google Sheets:", responseText);
 
     let result;
     try {

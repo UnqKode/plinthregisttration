@@ -5,13 +5,13 @@ import { Orbitron } from "next/font/google";
 import { useData } from "../../../context/form.context";
 import toast from "react-hot-toast";
 import { motion, AnimatePresence } from "framer-motion";
-import { 
-  Rocket, 
-  Users, 
-  Calendar, 
-  Mail, 
-  Phone, 
-  School, 
+import {
+  Rocket,
+  Users,
+  Calendar,
+  Mail,
+  Phone,
+  School,
   X,
   Plus,
   ArrowLeft,
@@ -52,7 +52,7 @@ export default function Page() {
   const [activeStep, setActiveStep] = useState(1);
 
   // Events data
- const events = [
+  const events = [
     { id: "nitro_racing", name: "Nitro Racing", price: 199, club: "PHEONIX" },
     { id: "robocup", name: "Robocup", price: 199, club: "PHEONIX" },
     { id: "roborace", name: "Roborace", price: 199, club: "PHEONIX" },
@@ -87,6 +87,15 @@ export default function Page() {
     { id: "graffiti_wall", name: "GRAFFITI WALL", price: 199, club: "DEBATE SOCIETY" },
   ];
 
+  const zonalEvents = [
+    { id: "IITR_Image_based_webdev", name: "Image based web dev", price: 199, club: "IIT ROORKEE ZONALS" },
+    { id: "IITR_Product_management", name: "Product management", price: 199, club: "IIT ROORKEE ZONALS" },
+    { id: "IITR_App_dev", name: "App dev", price: 199, club: "IIT ROORKEE ZONALS" },
+    { id: "IITR_Wikirun", name: "Wikirun", price: 199, club: "IIT ROORKEE ZONALS" },
+  ];
+
+
+
   useEffect(() => {
     const fetchCodes = async () => {
       try {
@@ -94,11 +103,11 @@ export default function Page() {
         const data = await res.json();
         if (data.success) {
           // Map codes from the new object structure (column1) and discount (column2)
-          const extractedCodes = Array.isArray(data.data) 
+          const extractedCodes = Array.isArray(data.data)
             ? data.data.map(item => ({
-                code: item.column1,
-                discount: parseFloat(item.column2) || 0 // Default to 0 if missing/invalid
-              })).filter(item => item.code)
+              code: item.column1,
+              discount: parseFloat(item.column2) || 0 // Default to 0 if missing/invalid
+            })).filter(item => item.code)
             : [];
           setCodes(extractedCodes);
         }
@@ -112,7 +121,7 @@ export default function Page() {
   // Filter events as user types
   useEffect(() => {
     const available = events.filter(event => !selectedEvents.find(se => se.id === event.id));
-    
+
     if (eventInput.trim()) {
       const filtered = available.filter(event =>
         event.name.toLowerCase().includes(eventInput.toLowerCase())
@@ -265,7 +274,7 @@ export default function Page() {
     }
 
     await new Promise(resolve => setTimeout(resolve, 1000));
-    
+
     setFormData(finalData);
     toast.success("🚀 Registration successful! Launching to confirmation...");
     router.push("/confirmRegistration");
@@ -285,9 +294,9 @@ export default function Page() {
     <div className="relative min-h-screen w-full overflow-hidden bg-black">
       {/* Background Effects */}
       <div className="fixed inset-0 z-0 w-full h-full pointer-events-none">
-        <img 
-          src="https://images.unsplash.com/photo-1504333638930-c8787321eee0?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
-          alt="Space Background" 
+        <img
+          src="https://images.unsplash.com/photo-1504333638930-c8787321eee0?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          alt="Space Background"
           className="w-full h-full object-cover opacity-60"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/40 to-black"></div>
@@ -305,7 +314,7 @@ export default function Page() {
         transition={{ duration: 20, repeat: Infinity }}
         className="fixed inset-0 z-[1] pointer-events-none"
       />
-      
+
       {/* Floating Elements */}
       <motion.div
         className="absolute top-20 right-20 w-32 h-32 bg-gradient-to-br from-cyan-500/10 to-blue-500/10 rounded-full blur-2xl pointer-events-none"
@@ -367,15 +376,13 @@ export default function Page() {
                 <div key={step.number} className="flex items-center">
                   <motion.div
                     whileHover={{ scale: 1.1 }}
-                    className={`relative w-12 h-12 rounded-full flex items-center justify-center border-2 ${
-                      activeStep >= step.number
-                        ? "bg-gradient-to-br from-cyan-500/20 to-blue-500/20 border-cyan-400"
-                        : "bg-black/50 border-gray-700"
-                    } transition-all duration-300`}
+                    className={`relative w-12 h-12 rounded-full flex items-center justify-center border-2 ${activeStep >= step.number
+                      ? "bg-gradient-to-br from-cyan-500/20 to-blue-500/20 border-cyan-400"
+                      : "bg-black/50 border-gray-700"
+                      } transition-all duration-300`}
                   >
-                    <step.icon className={`w-5 h-5 ${
-                      activeStep >= step.number ? "text-cyan-400" : "text-gray-500"
-                    }`} />
+                    <step.icon className={`w-5 h-5 ${activeStep >= step.number ? "text-cyan-400" : "text-gray-500"
+                      }`} />
                     {activeStep > step.number && (
                       <motion.div
                         initial={{ scale: 0 }}
@@ -387,9 +394,8 @@ export default function Page() {
                     )}
                   </motion.div>
                   {index < steps.length - 1 && (
-                    <div className={`w-16 h-0.5 ${
-                      activeStep > step.number ? "bg-gradient-to-r from-cyan-400 to-blue-400" : "bg-gray-700"
-                    }`} />
+                    <div className={`w-16 h-0.5 ${activeStep > step.number ? "bg-gradient-to-r from-cyan-400 to-blue-400" : "bg-gray-700"
+                      }`} />
                   )}
                 </div>
               ))}
@@ -450,7 +456,7 @@ export default function Page() {
                   </div>
                   <h2 className="text-xl font-semibold text-white">Mission Duration</h2>
                 </div>
-                
+
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {[
                     { value: "DAY1", label: "Day 1", desc: "Launch Day - 23rd Jan", price: "₹499", color: "from-cyan-500/20 to-blue-500/20" },
@@ -467,18 +473,16 @@ export default function Page() {
                         setDay(option.value);
                         setActiveStep(2);
                       }}
-                      className={`relative p-4 rounded-2xl border-2 text-left transition-all duration-300 ${
-                        day === option.value
-                          ? "border-cyan-400 bg-gradient-to-br from-cyan-500/10 to-blue-500/5"
-                          : "border-gray-700 bg-black/30 hover:border-gray-600"
-                      }`}
+                      className={`relative p-4 rounded-2xl border-2 text-left transition-all duration-300 ${day === option.value
+                        ? "border-cyan-400 bg-gradient-to-br from-cyan-500/10 to-blue-500/5"
+                        : "border-gray-700 bg-black/30 hover:border-gray-600"
+                        }`}
                     >
                       <div className={`absolute -inset-1 bg-gradient-to-br ${option.color} opacity-0 hover:opacity-100 transition-opacity duration-300 rounded-2xl blur-md pointer-events-none`} />
                       <div className="relative">
                         <div className="flex justify-between items-start mb-2">
-                          <div className={`w-3 h-3 rounded-full ${
-                            day === option.value ? "bg-cyan-400 animate-pulse" : "bg-gray-600"
-                          }`} />
+                          <div className={`w-3 h-3 rounded-full ${day === option.value ? "bg-cyan-400 animate-pulse" : "bg-gray-600"
+                            }`} />
                           <span className="text-emerald-400 font-semibold text-sm">{option.price}</span>
                         </div>
                         <h3 className="text-lg font-semibold text-white mb-1">{option.label}</h3>
@@ -513,11 +517,10 @@ export default function Page() {
                               onChange={(e) => setNeedsAccommodation(e.target.checked)}
                               className="sr-only"
                             />
-                            <div className={`w-6 h-6 rounded-lg border-2 flex items-center justify-center transition-all ${
-                              needsAccommodation
-                                ? "bg-gradient-to-br from-cyan-500 to-blue-500 border-transparent"
-                                : "border-gray-600 bg-black/30 group-hover:border-cyan-500/50"
-                            }`}>
+                            <div className={`w-6 h-6 rounded-lg border-2 flex items-center justify-center transition-all ${needsAccommodation
+                              ? "bg-gradient-to-br from-cyan-500 to-blue-500 border-transparent"
+                              : "border-gray-600 bg-black/30 group-hover:border-cyan-500/50"
+                              }`}>
                               {needsAccommodation && <Check className="w-4 h-4 text-white" />}
                             </div>
                           </div>
@@ -643,6 +646,51 @@ export default function Page() {
                           <Sparkles className="w-3 h-3" />
                           First event is free! Additional events ₹199 each
                         </p>
+
+                        <div className="space-y-3">
+                          <div className="flex items-center gap-2">
+                            <div className="px-3 py-1 rounded-full bg-yellow-500/20 text-yellow-400 text-sm font-semibold">
+                              IIT Roorkee Zonals
+                            </div>
+                          </div>
+
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            {zonalEvents.map((event) => {
+                              const alreadySelected = selectedEvents.some(e => e.id === event.id);
+
+                              return (
+                                <motion.button
+                                  key={event.id}
+                                  type="button"
+                                  whileHover={{ scale: 1.03 }}
+                                  whileTap={{ scale: 0.97 }}
+                                  disabled={alreadySelected}
+                                  onClick={() => selectEvent(event)}
+                                  className={`relative flex items-center justify-between px-4 py-3 rounded-xl border transition-all
+            ${alreadySelected
+                                      ? "bg-emerald-500/20 border-emerald-400 text-emerald-300 cursor-not-allowed"
+                                      : "bg-gradient-to-r from-yellow-500/10 to-orange-500/5 border-yellow-500/30 hover:border-yellow-400 text-white"
+                                    }
+          `}
+                                >
+                                  <div className="flex flex-col text-left">
+                                    <span className="font-medium">{event.name}</span>
+                                    <span className="text-xs opacity-70">IIT Roorkee Zonal Event</span>
+                                  </div>
+
+                                  <div className="flex items-center gap-2">
+                                    {alreadySelected ? (
+                                      <span className="text-xs font-semibold">Added</span>
+                                    ) : (
+                                      <span className="text-emerald-400 font-semibold">₹{event.price}</span>
+                                    )}
+                                  </div>
+                                </motion.button>
+                              );
+                            })}
+                          </div>
+                        </div>
+
                       </div>
                     </motion.div>
 
@@ -677,7 +725,7 @@ export default function Page() {
                               className="relative group"
                             >
                               <div className="absolute -inset-1 bg-gradient-to-r from-cyan-500/5 via-blue-500/5 to-purple-500/5 rounded-2xl blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
-                              
+
                               <div className="relative bg-gradient-to-br from-gray-900/50 to-black/30 border border-gray-800 rounded-2xl p-4">
                                 <div className="flex items-center justify-between mb-4">
                                   <div className="flex items-center gap-3">
@@ -686,7 +734,7 @@ export default function Page() {
                                     </div>
                                     <h3 className="text-base font-semibold text-white">Astronaut {index + 1}</h3>
                                   </div>
-                                  
+
                                   {members.length > 1 && (
                                     <motion.button
                                       type="button"
@@ -715,7 +763,7 @@ export default function Page() {
                                       required
                                     />
                                   </div>
-                                  
+
                                   <div>
                                     <label className="text-xs text-gray-400 mb-1 flex items-center gap-2">
                                       <School className="w-3 h-3" />
@@ -730,7 +778,7 @@ export default function Page() {
                                       required
                                     />
                                   </div>
-                                  
+
                                   <div>
                                     <label className="text-xs text-gray-400 mb-1 flex items-center gap-2">
                                       <Phone className="w-3 h-3" />
@@ -745,7 +793,7 @@ export default function Page() {
                                       required
                                     />
                                   </div>
-                                  
+
                                   <div>
                                     <label className="text-xs text-gray-400 mb-1 flex items-center gap-2">
                                       <Mail className="w-3 h-3" />
@@ -835,7 +883,7 @@ export default function Page() {
                       >
                         <div className="absolute inset-0 bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 rounded-2xl opacity-100 group-hover:opacity-80 transition-opacity duration-300 pointer-events-none" />
                         <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-300 pointer-events-none" />
-                        
+
                         <div className="relative bg-black rounded-2xl px-6 py-3 m-0.5 flex items-center justify-center gap-3">
                           {loading ? (
                             <div className="flex items-center gap-3">
