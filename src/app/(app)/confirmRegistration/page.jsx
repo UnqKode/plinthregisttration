@@ -34,12 +34,12 @@ export default function PaymentPage() {
     : 0;
   // totalAmount from context already includes accommodation, so we subtract to show the base
   const registrationCost = parseFloat(formData.totalAmount) - accommodationCost;
-  const totalBeforeDiscount = parseFloat(formData.totalAmount); 
-  
+  const totalBeforeDiscount = parseFloat(formData.totalAmount);
+
   // Calculate Discount
   const discountPercent = formData.discountPercent || 0;
   const discountAmount = (totalBeforeDiscount * discountPercent) / 100;
-  
+
   const totalAfterDiscount = totalBeforeDiscount - discountAmount;
   const taxAmount = totalAfterDiscount * 0.18;
   const totalPrice = totalAfterDiscount + taxAmount;
@@ -124,13 +124,13 @@ export default function PaymentPage() {
           <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/50 to-black"></div>
         </div>
 
-        <motion.div 
+        <motion.div
           className="relative z-10 max-w-5xl mx-auto"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <motion.h1 
+          <motion.h1
             className="text-4xl font-bold text-center mb-2 bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text text-transparent"
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -141,7 +141,7 @@ export default function PaymentPage() {
           <p className="text-center text-gray-400 mb-6 text-sm">Complete your payment to secure your spot at Plinth 2026</p>
 
           {/* Booking Details */}
-          <motion.div 
+          <motion.div
             className="bg-gray-900/40 backdrop-blur-xl rounded-2xl p-6 border border-purple-500/20 mb-6 shadow-lg shadow-purple-500/10"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -184,12 +184,12 @@ export default function PaymentPage() {
                   </span>
                 </div>
                 {formData.referral &&
-                <div className="flex justify-between">
-                  <span className="text-gray-400">Referral Code:</span>
-                  <span className="font-medium text-right">
-                    {formData.referral}
-                  </span>
-                </div>}
+                  <div className="flex justify-between">
+                    <span className="text-gray-400">Referral Code:</span>
+                    <span className="font-medium text-right">
+                      {formData.referral}
+                    </span>
+                  </div>}
               </div>
 
               {/* Right Column: Price Details */}
@@ -213,7 +213,7 @@ export default function PaymentPage() {
                     ₹{accommodationCost.toFixed(2)}
                   </span>
                 </div>
-               {/* Discount Row (Only if applied) */}
+                {/* Discount Row (Only if applied) */}
                 {discountPercent > 0 && (
                   <div className="flex justify-between text-green-400">
                     <span className="">Discount ({discountPercent}%):</span>
@@ -249,7 +249,7 @@ export default function PaymentPage() {
           </motion.div>
 
           {/* Members Table */}
-          <motion.div 
+          <motion.div
             className="bg-gray-900/40 backdrop-blur-xl rounded-2xl p-6 border border-blue-500/20 mb-6 shadow-lg shadow-blue-500/10"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -295,9 +295,29 @@ export default function PaymentPage() {
             </div>
           </motion.div>
 
+          {/* MUN Pricing Notice */}
+          {formData.selectedEvents?.includes("mun") && (
+            <motion.div
+              className="bg-orange-500/10 backdrop-blur-xl rounded-2xl p-5 border border-orange-500/30 mb-6 shadow-lg shadow-orange-500/10"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.45, duration: 0.6 }}
+            >
+              <div className="flex items-start gap-3">
+                <span className="text-2xl">⚠️</span>
+                <div>
+                  <h3 className="text-lg font-semibold text-orange-300 mb-1">Important: MUN Pricing</h3>
+                  <p className="text-orange-200 text-sm">
+                    Please note that <strong className="text-white">MUN (Model United Nations)</strong> is <strong className="text-white">NOT FREE</strong> and costs <strong className="text-white">₹1600</strong>. Unlike other events where the first event is free, MUN has a separate pricing structure.
+                  </p>
+                </div>
+              </div>
+            </motion.div>
+          )}
+
           {/* --- 3. Form for Payment Submission --- */}
           <form onSubmit={handleSubmit}>
-            <motion.div 
+            <motion.div
               className="grid grid-cols-1 lg:grid-cols-2 gap-6"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -315,7 +335,7 @@ export default function PaymentPage() {
                       {/* Placeholder for QR Code - Replace with actual QR */}
                       <div className="w-48 h-48 bg-white flex items-center justify-center">
                         <img
-                          src={formData.referral? "/referal.jpg" : "/qrcode.png"}
+                          src={formData.referral ? "/referal.jpg" : "/qrcode.png"}
                           alt="LNMIIT Gymkhana Payment QR Code"
                           className="w-full h-full object-fill"
                         />
@@ -323,7 +343,7 @@ export default function PaymentPage() {
                     </div>
                   </div>
                   <p className="text-lg font-mono bg-gray-800/60 backdrop-blur-sm p-3 rounded-lg border border-gray-700/50">
-                    {formData.referral? "PLINTH PR" : "LNMGYMKHANAFUND@SBI"}
+                    {formData.referral ? "PLINTH PR" : "LNMGYMKHANAFUND@SBI"}
                   </p>
                   <div className="mt-4 p-3 bg-green-500/10 border border-green-500/30 rounded-lg">
                     <p className="text-sm text-gray-300">
@@ -409,7 +429,7 @@ export default function PaymentPage() {
             </motion.div>
 
             {/* --- 5. New Submit Button --- */}
-            <motion.div 
+            <motion.div
               className="mt-6"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}

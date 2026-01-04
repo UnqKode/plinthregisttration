@@ -82,7 +82,7 @@ export default function Page() {
     { id: "ipl_auction", name: "IPL Auction", price: 199, club: "QUIZZINGA" },
     { id: "cryptex", name: "Cryptex", price: 199, club: "QUIZZINGA" },
     { id: "brand_wagon", name: "Brand Wagon", price: 199, club: "QUIZZINGA" },
-    { id: "mun", name: "MUN", price: 199, club: "DEBATE SOCIETY" },
+    { id: "mun", name: "MUN", price: 1600, club: "DEBATE SOCIETY" },
     { id: "change_my_mind", name: "CHANGE MY MIND", price: 199, club: "DEBATE SOCIETY" },
     { id: "graffiti_wall", name: "GRAFFITI WALL", price: 199, club: "DEBATE SOCIETY" },
   ];
@@ -142,8 +142,14 @@ export default function Page() {
   };
 
   const basePricePerMember = getBasePrice();
+
+  // Special handling for MUN: if it's the only event, it's not free
+  const isMunOnly = selectedEvents.length === 1 && selectedEvents[0].id === "mun";
+
   const eventPricePerMember = selectedEvents.length > 0
-    ? (selectedEvents.length - 1) * 199  // First event free
+    ? isMunOnly
+      ? selectedEvents[0].price  // MUN is not free when it's the only event
+      : selectedEvents.slice(1).reduce((sum, event) => sum + event.price, 0)  // First event free for others
     : 0;
 
   const baseTotal = (basePricePerMember + eventPricePerMember) * members.length;
@@ -417,7 +423,7 @@ export default function Page() {
                   <div>
                     <h3 className="text-white font-semibold">Mission Cost</h3>
                     <p className="text-xs text-gray-400">
-                      {members.length} member{members.length !== 1 ? 's' : ''} • {selectedEvents.length} event{selectedEvents.length !== 1 ? 's' : ''} (1st free)
+                      {members.length} member{members.length !== 1 ? 's' : ''} • {selectedEvents.length} event{selectedEvents.length !== 1 ? 's' : ''} {isMunOnly ? '' : '(1st free)'}
                     </p>
                   </div>
                 </div>
@@ -626,7 +632,7 @@ export default function Page() {
                                 >
                                   <Zap className="w-3 h-3 text-purple-400" />
                                   <span className="text-sm font-medium">{event.name}</span>
-                                  {index === 0 && (
+                                  {index === 0 && event.id !== "mun" && (
                                     <span className="text-xs bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded-full">FREE</span>
                                   )}
                                   <button
@@ -644,7 +650,7 @@ export default function Page() {
 
                         <p className="text-xs text-gray-500 flex items-center gap-2">
                           <Sparkles className="w-3 h-3" />
-                          First event is free! Additional events ₹199 each
+                          First event is free! Additional events at listed price (MUN: ₹1600, Others: ₹199)
                         </p>
 
                         <div className="space-y-3">
