@@ -2,6 +2,7 @@ import { Geist, Geist_Mono, Poppins, Inter } from "next/font/google";
 import "./globals.css";
 import { DataProvider } from "../context/form.context"; // ✅ import your context
 import { Analytics } from '@vercel/analytics/next';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import toast, { Toaster } from 'react-hot-toast';
 
 // 🧠 Load fonts with CSS variables
@@ -49,6 +50,7 @@ export default function RootLayout({ children }) {
           {children}
           <Toaster />
           <Analytics />
+          <SpeedInsights />
         </DataProvider>
       </body>
     </html>
